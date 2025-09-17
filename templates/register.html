@@ -1,0 +1,22 @@
+{% extends "shared/layout.html" %}
+
+{% block title %}會員註冊 - XX股份有限公司{% endblock %}
+
+{% block content %}
+  <link rel="stylesheet" href="style.css">
+  <!-- 註冊表單 -->
+  <div class="login-container left">
+    <h2>會員註冊</h2>
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      {{ form.as_p }}   <!-- ✅ 自動渲染表單欄位，包含 phone、birthday -->
+
+      <div>
+        <button type="submit" class="btn btn-primary">註冊</button>
+      </div>
+    </form>
+
+    <p class="signup-link">已經有帳號了？ <a href="{% url 'login' %}">立即登入</a></p>
+    <p class="back-home"><a href="{% url 'home' %}">← 回首頁</a></p>
+  </div>
+{% endblock %}
