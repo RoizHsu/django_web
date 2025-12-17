@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }} - Django Web{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+    <p class="lead">歡迎與我們聯繫</p>
+</div>
+
+<div class="contact-content">
+    <div class="contact-info">
+        <h2>聯絡資訊</h2>
+        <div class="info-card">
+            <div class="info-item">
+                <span class="info-icon">📧</span>
+                <div class="info-details">
+                    <h3>電子郵件</h3>
+                    <p>{{ email }}</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">📞</span>
+                <div class="info-details">
+                    <h3>電話</h3>
+                    <p>{{ phone }}</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">📍</span>
+                <div class="info-details">
+                    <h3>地址</h3>
+                    <p>台灣台北市信義區</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-form-section">
+        <h2>發送訊息</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">電子郵件</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">訊息內容</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">送出訊息</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

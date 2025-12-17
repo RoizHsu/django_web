@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }} - Django Web{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>{{ title }}</h1>
+    <p class="lead">{{ description }}</p>
+</div>
+
+<div class="about-content">
+    <section class="about-section">
+        <h2>關於本專案</h2>
+        <p>這是一個使用Django框架開發的Web應用程式，展示了前後端整合的完整流程。</p>
+        <p>本專案採用了現代化的Web開發技術，包含後端邏輯處理、前端頁面渲染以及美觀的使用者介面設計。</p>
+    </section>
+
+    <section class="features-section">
+        <h2>主要特色</h2>
+        <ul class="features-list">
+            {% for feature in features %}
+            <li>
+                <span class="feature-bullet">✓</span>
+                <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="tech-section">
+        <h2>技術架構</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <h3>後端技術</h3>
+                <ul>
+                    <li>Django 6.0</li>
+                    <li>Python 3.12</li>
+                    <li>SQLite 資料庫</li>
+                </ul>
+            </div>
+            <div class="tech-item">
+                <h3>前端技術</h3>
+                <ul>
+                    <li>HTML5</li>
+                    <li>CSS3</li>
+                    <li>JavaScript</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

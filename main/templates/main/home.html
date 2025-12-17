@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ title }} - Django Web{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1 class="hero-title">{{ title }}</h1>
+    <p class="hero-subtitle">{{ message }}</p>
+</div>
+
+<div class="features">
+    <h2>功能特色</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>快速開發</h3>
+            <p>使用Django框架快速建立Web應用程式</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>美觀介面</h3>
+            <p>現代化的前端設計與響應式布局</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔧</div>
+            <h3>易於維護</h3>
+            <p>清晰的代碼結構，便於長期維護</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>跨平台支援</h3>
+            <p>完美支援各種設備和瀏覽器</p>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <h2>開始使用</h2>
+    <p>探索更多功能，了解我們的服務</p>
+    <div class="cta-buttons">
+        <a href="{% url 'main:about' %}" class="btn btn-primary">了解更多</a>
+        <a href="{% url 'main:contact' %}" class="btn btn-secondary">聯絡我們</a>
+    </div>
+</div>
+{% endblock %}
