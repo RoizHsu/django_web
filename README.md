@@ -86,6 +86,13 @@ django_web/
 
 ## 開發說明
 
+### 安全注意事項
+⚠️ **重要**: 此專案使用開發環境設定，不適合直接部署到生產環境。在生產環境中應該：
+- 使用環境變數設定 `SECRET_KEY`
+- 將 `DEBUG` 設為 `False`
+- 正確配置 `ALLOWED_HOSTS`
+- 使用更安全的資料庫（如 PostgreSQL）
+
 ### 新增頁面
 1. 在 `main/views.py` 中新增視圖函數
 2. 在 `main/urls.py` 中新增 URL 路由
