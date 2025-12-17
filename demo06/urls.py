@@ -27,7 +27,7 @@ urlpatterns = [
     path('update/<str:pk>', update, name='update'),
     path('delete/<str:pk>', delete, name='delete'),
     path('index/',index,name='index'),
-    path('register/', register, name='sign_up'),
+    path('register/', register, name='register'),
     path('login/',login, name='login'),
     path('logout/',logout,name='logout')
     ]

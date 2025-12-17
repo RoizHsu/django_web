@@ -1,9 +1,45 @@
-{% extends "shared/layout.html" %}
-
-{% block title %}會員註冊 - XX股份有限公司{% endblock %}
-
+{% load static %}
+{% block title %}{% endblock %}
 {% block content %}
-  <link rel="stylesheet" href="style.css">
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XX股份有限公司</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <!-- 頂部導覽 -->
+<header>
+  <div class="container">
+    <nav>
+      <!-- 公司名稱 -->
+      <div class="logo">XX股份有限公司</div>
+
+      <!-- 下拉選單 -->
+      <div class="dropdown">
+        <a href="#" class="cta-btn">選單</a>
+        <div class="dropdown-content">
+          <a href="#">商品 1</a>
+          <a href="#">商品 2</a>
+          <a href="#">商品 3</a>
+          <a href="#">商品 4</a>
+        </div>
+      </div>
+
+      <!-- 其他導航 -->
+      <ul>
+        <li><a href="#">首頁</a></li>
+        <li><a href="#">關於我們</a></li>
+        <li><a href="#">服務</a></li>
+        <li><a href="#">聯絡方式</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">登入</a>
+          </li>
+      </ul>
+    </nav>
+  </div>
+</header>
   <!-- 註冊表單 -->
   <div class="login-container left">
     <h2>會員註冊</h2>
@@ -17,6 +53,6 @@
     </form>
 
     <p class="signup-link">已經有帳號了？ <a href="{% url 'login' %}">立即登入</a></p>
-    <p class="back-home"><a href="{% url 'home' %}">← 回首頁</a></p>
+    <p class="back-home"><a href="index.html">← 回首頁</a></p>
   </div>
 {% endblock %}
