@@ -43,6 +43,24 @@
   <!-- 註冊表單 -->
   <div class="login-container left">
     <h2>會員註冊</h2>
+    
+    <!-- 成功訊息 -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+    <!-- 錯誤提示 -->
+    {% if error_message %}
+      <div class="error-message" id="errorMessage">
+        <span class="close" onclick="closeError()">&times;</span>
+        {{ error_message }}
+      </div>
+    {% endif %}
+    
     <form method="POST" class="login-form">
       {% csrf_token %}
       {{ form.as_p }}   <!-- ✅ 自動渲染表單欄位，包含 phone、birthday -->
@@ -55,4 +73,59 @@
     <p class="signup-link">已經有帳號了？ <a href="{% url 'login' %}">立即登入</a></p>
     <p class="back-home"><a href="index.html">← 回首頁</a></p>
   </div>
+  
+  <script>
+    // 關閉錯誤提示
+    function closeError() {
+      const errorMessage = document.getElementById('errorMessage');
+      if (errorMessage) {
+        errorMessage.style.display = 'none';
+      }
+    }
+  </script>
+  
+  <style>
+    .error-message {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      padding: 12px 20px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .error-message .close {
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      color: #721c24;
+    }
+    
+    .error-message .close:hover {
+      opacity: 0.7;
+    }
+    
+    .alert {
+      padding: 12px 20px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    
+    .alert-error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+  </style>
 {% endblock %}
