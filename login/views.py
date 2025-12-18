@@ -7,14 +7,20 @@ from django.contrib import auth
 def login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('/index/')
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = auth.authenticate(username=username, password=password)
-    if user is not None and user.is_active:
-        auth.login(request, user)
-        return HttpResponseRedirect('/index/')
-    else:
-        return render(request, 'login.html', locals())
+    
+    error_message = ''
+    if request.method == 'POST':
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            auth.login(request, user)
+            return HttpResponseRedirect('/index/')
+        #帳號密碼錯誤跳出提示
+        else:
+            error_message = '帳號或密碼輸入錯誤，請重新輸入'
+    
+    return render(request, 'login.html', {'error_message': error_message})
 
 
 # 登出

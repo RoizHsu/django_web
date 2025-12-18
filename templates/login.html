@@ -32,6 +32,13 @@
   <!-- 登入表單 -->
   <div class="login-container left">
     <h2>會員登入</h2>
+      <!-- 當登入錯誤後顯示提示框 -->
+    {% if error_message %}
+      <div class="error-message" id="errorMessage">
+        <span class="close" onclick="closeError()">&times;</span>
+        {{ error_message }}
+      </div>
+    {% endif %}
     <form method="POST" class="login-form">
       {% csrf_token %}
 
@@ -61,6 +68,40 @@
       const passwordInput = document.getElementById("password");
       passwordInput.type = passwordInput.type === "password" ? "text" : "password";
     }
+    
+    // 關閉錯誤提示
+    function closeError() {
+      const errorMessage = document.getElementById('errorMessage');
+      if (errorMessage) {
+        errorMessage.style.display = 'none';
+      }
+    }
   </script>
+  
+  <style>
+    .error-message {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      padding: 12px 20px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    
+    .error-message .close {
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      color: #721c24;
+    }
+    
+    .error-message .close:hover {
+      opacity: 0.7;
+    }
+  </style>
 </body>
 </html>
