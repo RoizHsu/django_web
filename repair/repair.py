@@ -1,7 +1,6 @@
 from django import forms
 from django.utils import timezone
-
-from.models import Repair,Job_title,RepairUser,Location,State
+from .models import Repair, Job_title, Location, State
 
 
 class RepairForm(forms.ModelForm):
@@ -14,25 +13,26 @@ class RepairForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'share': forms.TextInput(attrs={'class': 'form-control'}),
             'F': forms.NumberInput(attrs={'class': 'form-control'}),
-            'offer': forms.TextInput(attrs={'class': 'form-control'}),
-            'Q':forms.TextInput(attrs={'class': 'form-control'}),
-            'A':forms.TextInput(attrs={'class': 'form-control'}),
-            'start': forms.DateTimeInput(attrs={'type': 'datetime',}),
+            'office': forms.TextInput(attrs={'class': 'form-control'}),
+            'Q': forms.TextInput(attrs={'class': 'form-control'}),
+            'A': forms.TextInput(attrs={'class': 'form-control'}),
+            'repair_user': forms.HiddenInput(),
+            'start': forms.DateTimeInput(attrs={'type': 'datetime'}),
             'finish': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
-        labels = { #顯示名稱
+        labels = {
             'ip': 'IP',
             'ext': '分機',
             'name': '叫修人',
             'share': '股別',
             'jt': '職稱',
-            'repairUser': '工程師',
+            'repair_user': '維修工程師',
             'location': '位置',
             'F': '樓層',
             'office': '科室',
             'Q': '報修問題',
             'A': '回復報修',
-            'state' : '狀態',
+            'state': '狀態',
             'start': '維修時間',
             'finish': '維修結束',
         }
