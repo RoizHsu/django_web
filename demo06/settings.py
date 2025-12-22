@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'repair.apps.RepairConfig',
     'userMaterial.apps.UsermaterialConfig',
     'register.apps.RegisterConfig',
+    'title_announcement.apps.TitleAnnouncementConfig',
     'import_export'
 ]
 
