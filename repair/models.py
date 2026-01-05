@@ -41,7 +41,7 @@ class Repair(models.Model):
     Q = models.CharField(verbose_name="報修問題",max_length=255)
     A = models.CharField(verbose_name="回復報修",max_length=255)
     state = models.ForeignKey(verbose_name="狀態", to=State, on_delete=models.CASCADE)
-    start = models.DateTimeField(verbose_name="維修時間", default=timezone.now)
+    start = models.DateTimeField(verbose_name="維修時間", auto_now=True)#每次更新就會更新時間
     finish = models.DateTimeField(verbose_name="維修結束", null=True, blank=True)
     
     def __str__(self):
