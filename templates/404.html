@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/404.css" %}">
+    <title>Error 404</title>
+  </head>
+  <body>
+    <div id="mid">
+      <h1 id="error-code"> 
+        <span id="first">4</span>
+        <span id="second">0</span>
+        <span id="third">4</span> 
+        <span id="not-found">Not Found</span>
+      </h1>
+      <h2 id="error-message">  
+        <span>Sorry,<br>您所尋找的頁面不存在！</span>
+      </h2>
+    </div>
+    <div id="for">
+      <ul id= "nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">about</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+  </body>
+</html>
