@@ -32,11 +32,18 @@ Django 管理介面，提供完整的資料管理功能。
 
 ## 技術棧
 
+##260106 已更新至ssms
+<img width="377" height="393" alt="{D10CEB98-636B-4F32-9291-C1C1F0BFAAFE}" src="https://github.com/user-attachments/assets/4a6e97c2-fdbb-4869-832f-6a2446b05c8e" />
+
+---
+
 - **後端框架**: Django
 - **前端**:  HTML/CSS/JavaScript
 - **資料庫**: [請補充你使用的資料庫]
 
 ## 安裝與執行
+
+
 
 ```bash
 # 克隆專案
@@ -62,4 +69,4 @@ python manage.py runserver
 
 ## 授權
 
-[請補充授權資訊]
+
