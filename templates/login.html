@@ -42,29 +42,25 @@
     {% endif %}
     <form method="POST" class="login-form">
       {% csrf_token %}
-
       <label for="account">帳號</label>
       <input type="text" id="account" name="username" placeholder="請輸入帳號" required>
-
       <label for="password">密碼</label>
       <div class="password-field">
         <input type="password" id="password" name="password" placeholder="請輸入密碼" required>
         <span class="toggle-password" onclick="togglePassword()">👁</span>
       </div>
-
-      <a class="remember">
-        <input type="checkbox" name="remember"> 記住我
-      </a>
       
-
+      <label class="remember">
+        <input type="checkbox" name="remember">記住我
+      </label>
       <button type="submit">登入</button>
     </form>
   
     <span class="back-home">
       <a href="index.html" style="float:left">⭠ 回首頁</a>
-      <a href="{% url 'register' %}" style="float:right">註冊 ⭢</a></p>
+      <a href="{% url 'register' %}" style="float:right">註冊 ⭢</a>
     </span>
-
+  </div>
 
   <script>
     // 顯示/隱藏密碼

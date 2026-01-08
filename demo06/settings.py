@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c4h*+(!)u&@93ffbqipj+-+)4=txy(qcd6c&8mp9%_x8cw@)lu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #設定為False代表關閉除錯模式 # True代表開啟除錯模式
+DEBUG = True #設定為False代表關閉除錯模式 # True代表開啟除錯模式
 
 ALLOWED_HOSTS = ['127.0.0.1']
 #如要開啟動態，開server要加上參數 --insecure
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    #'whiteonoise.middleware.WhiteNoiseMiddleware',  # 用於服務靜態文件
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,6 +133,7 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
+#STATIC_ROOT = BASE_DIR / 'staticfiles' # 收集所有檔案的地方 #上現在開發環境先註解掉
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
