@@ -325,8 +325,8 @@ body.login-bg {
 /* 記住我對齊 */
 .login-form .remember {
   display: flex;
-  align-items: center;  /* 垂直置中對齊 */
-  margin-bottom: 15px;
+  justify-content: flex-end; /* 靠右對齊 */
+  margin-bottom: 30px;
   font-size: 14px;
   color: #555;
 }

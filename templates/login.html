@@ -52,16 +52,19 @@
         <span class="toggle-password" onclick="togglePassword()">👁</span>
       </div>
 
-      <label class="remember">
+      <a class="remember">
         <input type="checkbox" name="remember"> 記住我
-      </label>
+      </a>
+      
 
       <button type="submit">登入</button>
     </form>
-  <div class="footer">
-    <p class="back-home"><a href="index.html">⭠ 回首頁</a></p>
-    <p class="register"><a href="{% url 'register' %}">註冊 ⭢</a></p>
-  </div>
+  
+    <span class="back-home">
+      <a href="index.html" style="float:left">⭠ 回首頁</a>
+      <a href="{% url 'register' %}" style="float:right">註冊 ⭢</a></p>
+    </span>
+
 
   <script>
     // 顯示/隱藏密碼

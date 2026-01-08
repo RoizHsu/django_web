@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c4h*+(!)u&@93ffbqipj+-+)4=txy(qcd6c&8mp9%_x8cw@)lu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False #設定為False代表關閉除錯模式 # True代表開啟除錯模式
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
+#如要開啟動態，開server要加上參數 --insecure
+#日後更改其使用方始 如 whitnoise 等等
 
 # Application definition
 
