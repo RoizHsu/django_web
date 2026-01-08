@@ -1,4 +1,4 @@
-<img width="550" height="523" alt="image" src="https://github.com/user-attachments/assets/4c0853ea-8b97-47d4-b9e6-e939d2ca6ad7" /># django_web
+
 
 用 Django 創作的全端網站應用程式
 
@@ -26,7 +26,7 @@ Django 管理介面，提供完整的資料管理功能。
 
 使用者登入介面，若輸入錯誤會顯示提示訊息。
 
-<img width="406" height="467" alt="螢幕擷取畫面 2026-01-08 173706" src="https://github.com/user-attachments/assets/b4f12802-ff53-4bb1-8968-c6f2390cee24" />
+<img width="550" height="523" alt="image" src="https://github.com/user-attachments/assets/4c0853ea-8b97-47d4-b9e6-e939d2ca6ad7" />
 
 
 ---
