@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CKEditor 網頁編輯器</title>
+    <style>
+      body {
+        font-family: 'Microsoft JhengHei', Arial, sans-serif;
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+      .version-info {
+        background: #e8f5e9;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        color: #2e7d32;
+        font-size: 14px;
+      }
+      .editor-container {
+        margin: 20px 0;
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .submit-btn {
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+      .clear-btn {
+        padding: 12px 24px;
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+      .clear-btn:hover {
+        background: #d32f2f;
+      }
+      .save-btn {
+        padding: 12px 24px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+      .save-btn:hover {
+        background: #45a049;
+      }
+      .preview {
+        margin-top: 30px;
+        padding: 25px;
+        border: 2px solid #e0e0e0;
+        background-color: #fafafa;
+        border-radius: 8px;
+        display: none;
+      }
+      .preview h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+      }
+      .preview-content {
+        background: white;
+        padding: 20px;
+        border-radius: 6px;
+        min-height: 100px;
+      }
+      .stats {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #ddd;
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      .stats strong {
+        color: #667eea;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>貼文編輯器</h1>
+
+      <form method="post" id="announcementForm">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+          <div style="background: #ffebee; border: 1px solid #f44336; color: #c62828; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+            {% for error in form.non_field_errors %}
+              <p>❌ {{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <div class="editor-container"> <!-- 標題欄位 -->
+          <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+          {{ form.title }}
+          {% if form.title.errors %}
+            <div style="color: #f44336;">
+              {% for error in form.title.errors %}
+                <small>❌ {{ error }}</small>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="editor-container"><!-- 內容欄位 -->
+          <label>{{ form.announcement.label }}</label>
+          <div id="editor"></div>
+          <style>
+            #id_announcement {
+              display: none;
+            }
+          </style>
+        </div>
+
+        <div class="editor-container"><!-- 維修人員欄位 -->
+          <label for="{{ form.repair_user.id_for_label }}">{{ form.repair_user.label }}</label>
+          {{ form.repair_user }}
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="submit-btn" onclick="previewContent()">👁️ 預覽內容</button>
+          <button type="submit" class="save-btn">發布公告</button>
+          <button type="button" class="clear-btn" onclick="clearContent()">🗑️ 全部清空</button>
+        </div>
+      </form>
+
+      <div class="preview" id="preview">
+        <h3>📋 預覽結果</h3>
+        <div class="preview-content" id="preview-content"></div>
+        <div class="stats">
+          <span>字數：<strong id="wordCount">0</strong></span>
+          <span>字元數：<strong id="charCount">0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 使用最新的 CKEditor 5 (安全版本，無警告) -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/translations/zh.js"></script>
+
+    <script>
+      let editorInstance
+      
+      // 初始化 CKEditor 5
+      ClassicEditor.create(document.querySelector('#editor'), {
+        language: 'zh',
+        toolbar: ['heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'alignment', '|', 'blockQuote', 'insertTable', '|', 'undo', 'redo'],
+        heading: {
+          options: [
+            { model: 'paragraph', title: '段落', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: '標題 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: '標題 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: '標題 3', class: 'ck-heading_heading3' }
+          ]
+        }
+      })
+        .then((editor) => {
+          editorInstance = editor
+          console.log('✅ CKEditor 5 初始化成功！')
+      
+          // 自動恢復儲存的內容
+          const savedContent = localStorage.getItem('editorContent')
+          if (savedContent) {
+            if (confirm('發現上次儲存的內容，要恢復嗎？')) {
+              editor.setData(savedContent)
+            }
+          }
+        })
+        .catch((error) => {
+          console.error('編輯器初始化失敗：', error)
+        })
+      
+      // 預覽內容
+      function previewContent() {
+        const content = editorInstance.getData()
+        const previewDiv = document.getElementById('preview')
+        const previewContent = document.getElementById('preview-content')
+      
+        previewContent.innerHTML = content
+        previewDiv.style.display = 'block'
+      
+        // 計算字數統計
+        const text = content.replace(/<[^>]*>/g, '').trim()
+        const words = text.split(/\s+/).filter((w) => w.length > 0)
+        document.getElementById('wordCount').textContent = words.length
+        document.getElementById('charCount').textContent = text.length
+      
+        // 滾動到預覽區
+        previewDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      
+        console.log('內容預覽：', content)
+      }
+      
+      // 儲存內容
+      function saveContent() {
+        const content = editorInstance.getData()
+        localStorage.setItem('editorContent', content)
+        localStorage.setItem('savedTime', new Date().toLocaleString('zh-TW'))
+      
+        alert(
+          '✅ 內容已儲存！\n' +
+            '儲存時間：' +
+            new Date().toLocaleString('zh-TW') +
+            '\n' +
+            '字數：' +
+            content
+              .replace(/<[^>]*>/g, '')
+              .trim()
+              .split(/\s+/).length
+        )
+      }
+      
+      // 清空內容
+      function clearContent() {
+        if (confirm('⚠️ 確定要清空所有內容嗎？此操作無法復原！')) {
+          editorInstance.setData('')
+          document.getElementById('preview').style.display = 'none'
+          document.getElementById('id_title').value = ''
+          localStorage.removeItem('editorContent')
+          alert('✅ 內容已清空！')
+        }
+      }
+
+      // 表單提交前，將 CKEditor 內容同步到隱藏的表單欄位
+      document.getElementById('announcementForm').addEventListener('submit', function(e) {
+        // 等待 CKEditor 初始化完成
+        if (!editorInstance) {
+          e.preventDefault()
+          alert('❌ 編輯器尚未初始化，請稍候再試')
+          return false
+        }
+        
+        const announcementField = document.getElementById('id_announcement')
+        const titleField = document.getElementById('id_title')
+        
+        if (!titleField.value.trim()) {
+          e.preventDefault()
+          alert('❌ 請輸入公告標題')
+          return false
+        }
+        
+        const content = editorInstance.getData()
+        if (!content.trim()) {
+          e.preventDefault()
+          alert('❌ 請輸入公告內容')
+          return false
+        }
+        
+        announcementField.value = content
+        console.log('✅ 表單數據已準備好提交')
+      })
+      
+      // 定期自動儲存（每 30 秒）
+      setInterval(() => {
+        if (editorInstance) {
+          const content = editorInstance.getData()
+          if (content.trim()) {
+            localStorage.setItem('editorContent', content)
+            console.log('🔄 自動儲存完成')
+          }
+        }
+      }, 30000)
+    </script>
+  </body>
+</html>

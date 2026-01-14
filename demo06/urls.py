@@ -20,6 +20,9 @@ from repair.views import repair,inquire,update,delete
 from index.views import index
 from register.views import register
 from login.views import login,logout
+from title_announcement.views import new_index
+from title_announcement.views import editor
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('repair/', repair, name='repair'),
@@ -29,6 +32,8 @@ urlpatterns = [
     path('index/',index,name='index'),
     path('register/', register, name='register'),
     path('login/',login, name='login'),
-    path('logout/',logout,name='logout')
+    path('logout/',logout,name='logout'),
+    path('new_index/', new_index, name='new_index'),
+    path('editor.html', editor, name='editor'),
     ]
 

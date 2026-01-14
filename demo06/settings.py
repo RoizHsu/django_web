@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'repair.apps.RepairConfig',
     'userMaterial.apps.UsermaterialConfig',
     'register.apps.RegisterConfig',

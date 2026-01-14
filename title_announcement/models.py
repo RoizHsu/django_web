@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 class TitleAnnouncement(models.Model):
     title = models.CharField(max_length=200, verbose_name='公告標題')
-    announcement = models.TextField(verbose_name='公告內容')
-    created_at = models.DateTimeField(default=timezone.now, verbose_name='建立時間')
+    announcement = RichTextField(verbose_name='公告內容')
+    created_at = models.DateTimeField(default=timezone.now, verbose_name='發布時間')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新時間')
     repair_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="發布人工程師", null=True, blank=True)
 

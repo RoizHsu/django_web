@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登入 - XX股份有限公司</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="{% static 'js/faeye.js' %}"></script>
+  </head>
+  <body class="login-bg">
+    <!-- 頂部導覽 -->
+    <header>
+      <div class="container">
+        <nav>
+          <!-- 公司名稱 -->
+          <div class="logo">XX股份有限公司</div>
+
+          <!-- 其他導航 -->
+          <ul>
+            <li>
+              <a href="index.html">首頁公告</a>
+            </li>
+            <li>
+              <a href="#">登打維修單</a>
+            </li>
+            <li>
+              <a href="#">登打維修單</a>
+            </li>
+            <li>
+              <a href="#">服務</a>
+            </li>
+            <li>
+              <a href="#">聯絡方式</a>
+            </li>
+            <li>
+              <a href="#">修改維修單</a>
+            </li>
+            <li>
+              <a class="meicon" id="workspace">
+                <img src="{% static 'img/dossier.gif' %}" width="40" height="40" />
+                {{ request.user }} </a>
+            </li>
+            <li class="nav-item">
+              <img src="{% static 'img/logout.gif' %}" width="40" height="40" /><a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+            </li>
+        </nav>
+      </div>
+    </header>
+    <h1>
+      公告<dir class="time-container">
+        時間：<span id="currentTime">載入中...</span>
+      </dir>
+      {% for announcement in title_announcements %}
+       <table class="assets"  border="1" cellpadding="1" cellspacing="0">
+      <tr>
+        <td class="assetsth" width="150" align="center" valign="middle">
+          <strong>發布時間</strong>
+        </td>
+
+        <td class="assetsth" width="60" align="center" valign="middle">
+          <strong>標題</strong>
+        </td>
+        <td class="assetsth" width="412" align="center" valign="middle">
+          <strong>消息主題</strong>
+        </td>
+        <td class="assetsth" width="60" align="center" valign="middle">
+          <p>
+            <strong>發佈者</strong>
+          </p>
+        </td>
+      </tr>
+      <tr>  
+        <td class="assetstd" align="center">
+          <span class="style1">{{ announcement.created_at }}</span><!--發布時間-->
+        </td>
+        <td class="assetstd"  align="center">
+          <span class="style1">{{ announcement.title }}<a href="seenews.php?idno=12"></a></span><!--類別-->
+        </td> <!-- 在公告列表模板把內容改用 safe filter，讓 HTML 直接渲染。 -->
+        <td class="assetstd" align="center">
+          <span class="style1">{{ announcement.announcement|safe }}</span><!--標題內容-->
+        </td>
+        <td class="assetstd" align="center">
+          <span class="style1">{{ announcement.repair_user }}</span><!--發佈者-->
+        </td>
+      </tr>
+    </table>
+      {% empty %}
+        <p>目前沒有公告。</p>
+      {% endfor %}
+    </h1>
+    <input type="button" value="前往編輯頁面" onclick="location.href='{% url 'editor' %}'" />
+    <style>
+      .error-message {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 12px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+      }
+      
+      .error-message .close {
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+        color: #721c24;
+      }
+      
+      .error-message .close:hover {
+        opacity: 0.7;
+      }
+    </style>
+    <script>
+      function updateTime() {
+        const now = new Date() //抓取當下時間
+      
+        //獲取各個時間部份
+        const year = now.getFullYear() + '年'
+        const month = String(now.getMonth() + 1).padStart(2, '0') + '月'
+        const day = String(now.getDate()).padStart(2, '0') + '日 '
+        const hours = String(now.getHours()).padStart(2, '0') + ':'
+        const minutes = String(now.getMinutes()).padStart(2, '0') + ':'
+        const seconds = String(now.getSeconds()).padStart(2, '0')
+        //格式化數字 小於10補零
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+        const formattedSeconds = seconds < 10 ? '0' + seconds : seconds
+        //組合要顯示的時間
+        const timeString = `${year}${month}${day}${hours}${formattedMinutes}${formattedSeconds}`
+        //顯示在指定位置
+        document.getElementById('currentTime').textContent = timeString
+      }
+      //每秒更新一次時間
+      setInterval(updateTime, 1000)
+      //初始呼叫一次以顯示時間
+      updateTime()
+    </script>
+  </body>
+</html>

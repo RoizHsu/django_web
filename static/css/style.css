@@ -413,7 +413,6 @@ body.login-bg {
   box-sizing: border-box;
 }
 
-
 /* 密碼欄位 */
 .password-field {
   position: relative;
@@ -422,29 +421,18 @@ body.login-bg {
 
 .password-field input {
   width: 100%;
-  padding-right: 35px;
+  padding-right: 10px;
 }
 
-.toggle-password {
+/*.toggle-password {
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   color: #888;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 16px;
-  color: #888;
-}
-
+}*/
 /* 回首頁連結 */
 .back-home {
   margin-top: 15px;
@@ -485,4 +473,28 @@ body.login-bg {
     margin: 50px auto;
     padding: 20px;
   }
+}
+/* new css 260114 */
+.assets {
+  display: table;
+  margin: 15px auto;
+  width: 80%;
+  
+}
+.assetsth {
+  border-collapse: separate;
+  border-radius: 5px;    /* 設置單元格的圓角 */;
+  border:2px solid #ddd;
+  padding: 20px;
+  border-spacing: 20px;       /* 移除單元格間的空隙 */
+  border-radius: 5px;    /* 設置單元格的圓角 */
+}
+.assetstd {
+  border-collapse: separate;
+  border-radius: 5px;    /* 設置單元格的圓角 */;
+  border:2px solid #ddd;
+  padding: 20px;
+  font-size:20px;
+  border-spacing: 20px;       /* 移除單元格間的空隙 */
+  border-radius: 5px;    /* 設置單元格的圓角 */
 }
