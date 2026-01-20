@@ -5,7 +5,7 @@ from repair.models import Repair
 # Create your views here.
 
 
-def index(request):
+def old_index(request):
     repairs = Repair.objects.all()
     if request.method == 'POST':
         form = RepairForm(request.POST)
@@ -15,7 +15,7 @@ def index(request):
     context = {
         'repairs': repairs
     }
-    return render(request, 'index.html', context)
+    return render(request, 'old_index.html', context)
 
 
 

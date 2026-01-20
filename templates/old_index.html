@@ -1,0 +1,156 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/syindex.css' %}">
+<link rel="stylesheet" href="{% static 'css/sheet.css ' %}">
+ <!--引用jQuery-->
+ <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+ <!--引用dataTables.js-->
+ <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+ <title> 首頁 </title> <!-- 網頁標題 -->
+{% if request.user.is_authenticated %}  
+<nav id="nav">
+    <ul>
+      <li>
+        <a class="meicon" id="workspace" ><img src="{% static 'img/dossier.gif' %}" width="40" height="40">{{request.user}}</a>
+        <span class="arrow_box tooltips" id=""></span>
+      </li>
+        
+      <li>
+        <a class="icon" id="statistics" href="{% url 'index' %}"><img src="{% static 'img/book.gif' %}" width="40" height="40"></a>
+        <span class="arrow_box tooltips" id="statistics_tooltips">維修表首頁</span>
+      </li>
+        
+      <li>
+        <a class="icon" id="config" href="{% url 'repair' %}"><img src="{% static 'img/edit.gif' %}" width="40" height="40"></a>
+        <span class="arrow_box tooltips" id="config_tooltips">填寫維修單</span>
+      </li>
+        
+      <li>
+        <a class="icon" id="config" href="{% url 'inquire' %}"><img src="{% static 'img/document.gif' %}" width="40" height="40"></a>
+        <span class="arrow_box tooltips" id="config_tooltips">維修資料修改</span>
+      </li>
+        
+      <li>
+        <a class="icon" id="config" href="{% url 'inquire' %}"><img src="{% static 'img/search-file.gif' %}" width="40" height="40"></a>
+        <span class="arrow_box tooltips" id="config_tooltips">資料修改</span>
+      </li>
+      <li>
+        <a class="icon" id="statistics" href="{% url 'logout' %}"><img src="{% static 'img/logout.gif' %}" width="40" height="40"></a>
+        <span class="arrow_box tooltips" id="config_tooltips" >登出</span>
+      </li>
+    </ul>
+  </nav>
+    {% endif %}
+  <div id="workspace">
+    <div id="title">
+      <h1>維修表首頁</h1>
+    </div>
+    <div id="content">
+      
+      <div id="welcome">
+        <h1></h1>
+        <form action="" method="POST">
+{% csrf_token %}
+          <table width="auto" align="center" cellpadding="0" cellspacing="0" id="DataTalbe"  class="display"  >
+            <thead class="thead-dark">
+            <tr>
+                <th>狀態</th>
+                <th>單號</th>
+                <th>科室</th>
+                <th>叫修人</th>
+                <th>分機</th>
+                <th>IP</th>
+                <th>維修時間</th>
+                <th>工程師</th>
+                <th>報修問題</th>
+                <th>回復報修</th>
+                <th>維修結束</th>
+            </tr>
+            </thead>
+            <tbody>
+    
+            {% for repair in repairs  %}
+                <tr>
+                  <td>{{ repair.state }}</td>
+                  <td>{{ repair.id }}</td>
+                  <td>{{ repair.office }}</td>
+                  <td>{{ repair.name }}</td>
+                  <td>{{ repair.ext }}</td>
+                  <td>{{ repair.ip }}</td>
+                  <td>{{ repair.start }}</td>
+                  <td>{{ repair.get_repair_user_name }}</td>
+                  <td>{{ repair.Q }}</td>
+                  <td>{{ repair.A }}</td>
+                  <td>{{ repair.finish }}</td>
+                </tr>
+            {% endfor %}
+         </tbody>
+            </table>
+        <body>
+            <div class="wrap">
+                <div class="header"></div>
+                <div class="content"></div>
+            </div>
+        </body>
+        </form>
+
+            <!--版面排版整理腳本-->
+            
+            <script type="text/javascript">
+                       $(document).ready(function() {
+                      
+                                var dataTable = $("#DataTalbe").dataTable({
+                                    
+                                                            "language": {
+                                                                 "search":         "搜尋: _INPUT_ ",
+                                                                "zeroRecords":    "查無資料<a href='#'> </a>",
+                                                             "lengthMenu":     "顯示 _MENU_ 筆數",
+                                                                "info":           "顯示 _START_ 到 _END_ / _TOTAL_ 筆數",
+                                                                "infoEmpty": "無資料",
+                                                                "paginate": {
+                                                                            "first":      "首頁",
+                                                                            "last":       "最末頁",
+                                                                            "next":       "下頁",
+                                                                            "previous":   "上頁"
+                                                                        },								            
+                                                                "infoFiltered": "(筆數)"
+                                                            },	
+                                                              "pageLength": 20,					        
+                                                           searching: true,
+                                                           paging: true,
+                                                           lengthChange:false,
+                                                           ordering:  true,
+                                                           "order":[[1,"desc"]],
+                                                           });
+                                $("#searchbox").keyup(function() {
+                                    dataTable.fnFilter(this.value);
+                                }); 
+                                
+                               $("#mySelect").change(function(){
+                                  var x = document.getElementById("mySelect").value;
+                                  document.getElementById("searchbox").value =  x;
+                                  dataTable.fnFilter(this.value);
+                                  }); 
+                            });
+                            
+                       $(function(){
+        $("td .flip").click(function(){
+            $(this).find(".panel").slideToggle();
+            $(".xs1").toggle();
+            $(".xs2").toggle();
+          });
+        $("td .flip2").click(function(){
+            $(this).find(".panel2").slideToggle();
+            $(".xs2").toggle();
+            $(".xs3").toggle();
+          });  
+        
+          });
+                    
+        
+            </script>
+      </div>
+    </div>
+  </div>
+{% endblock  %}

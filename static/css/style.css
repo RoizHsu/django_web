@@ -19,9 +19,10 @@ body {
 
 /* 整體頁面設置 */
 header {
-  background-color: #333;
+  background-color: #ffffffff;
   padding: 10px 0;
 }
+
 
 header .container {
   display: flex;
@@ -67,7 +68,7 @@ header nav ul li {
 }
 
 header nav ul li a {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   font-weight: bold;
   font-size: 16px;
@@ -147,7 +148,7 @@ header nav ul li a:hover {
 
 .hero {
   position: relative;
-  background-image: url("static/css/BentoHero_4x_Vanilla.jpg");
+  background-image: url("static/css/image-cache.jpg");
   /* 設置背景圖片，請將 '' 換成實際的圖片網址 */
   background-size: cover;
   /* 背景圖片覆蓋整個區塊 */
@@ -251,7 +252,7 @@ footer {
 .logo {
   font-size: 20px;
   font-weight: bold;
-  color: #fff;
+  color: #000000;
   margin-right: 20px;
 }
 
@@ -329,7 +330,7 @@ footer {
 
 /* 登入頁背景 */
 body.login-bg {
-  background: url('BentoHero_4x_Vanilla.jpg') no-repeat center center fixed;
+  background: url('image-cache.jpg') no-repeat center center fixed;
   background-size: cover;
   margin: 0;
   padding: 0;
@@ -350,9 +351,11 @@ body.login-bg {
 /* 記住我對齊 */
 .login-form .remember {
   display: flex;
-  justify-content: flex-end;/* 整體靠右 */
+  justify-content: flex-end;
+  /* 整體靠右 */
   /*align-items: center;      /* 確保框框與文字水平中心對齊 */
-  white-space: nowrap; /* 加入這一行：禁止換行 */
+  white-space: nowrap;
+  /* 加入這一行：禁止換行 */
   margin-bottom: 1px;
   font-size: 14px;
   color: #555;
@@ -360,10 +363,14 @@ body.login-bg {
 
 /* 針對勾選框框的調整 */
 .login-form .remember input {
-  height: 19px; /* 高度 */
-  margin-right: 5px; /* 縮小這裡的間距，例如改成 5px，框框就會靠近文字了 */
-  width: auto; /* 確保框框不會變形 */
-  cursor: pointer;/* 滑鼠游標變成手指 */
+  height: 19px;
+  /* 高度 */
+  margin-right: 5px;
+  /* 縮小這裡的間距，例如改成 5px，框框就會靠近文字了 */
+  width: auto;
+  /* 確保框框不會變形 */
+  cursor: pointer;
+  /* 滑鼠游標變成手指 */
 }
 
 /* 針對文字的調整 (選用) */
@@ -474,27 +481,189 @@ body.login-bg {
     padding: 20px;
   }
 }
+
 /* new css 260114 */
 .assets {
   display: table;
   margin: 15px auto;
-  width: 80%;
-  
+
 }
+
+
 .assetsth {
   border-collapse: separate;
-  border-radius: 5px;    /* 設置單元格的圓角 */;
-  border:2px solid #ddd;
+  border-radius: 5px;
+  /* 設置單元格的圓角 */
+  border: 2px solid #ddd;
   padding: 20px;
-  border-spacing: 20px;       /* 移除單元格間的空隙 */
-  border-radius: 5px;    /* 設置單元格的圓角 */
+  border-spacing: 20px;
+  /* 移除單元格間的空隙 */
+  border-radius: 5px;
+  /* 設置單元格的圓角 */
 }
+
 .assetstd {
   border-collapse: separate;
-  border-radius: 5px;    /* 設置單元格的圓角 */;
-  border:2px solid #ddd;
+  border-radius: 5px;
+  /* 設置單元格的圓角 */
+  border: 2px solid #ddd;
   padding: 20px;
-  font-size:20px;
-  border-spacing: 20px;       /* 移除單元格間的空隙 */
-  border-radius: 5px;    /* 設置單元格的圓角 */
+  font-size: 20px;
+  border-spacing: 20px;
+  /* 移除單元格間的空隙 */
+  border-radius: 5px;
+  /* 設置單元格的圓角 */
+}
+
+.meicon {
+  /* 圖標置中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 260116 update  */
+a.back-home {
+  color: #ff9900;
+  text-decoration: none;
+}
+
+a.back-home:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 12px 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.error-message .close {
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  color: #721c24;
+}
+
+.error-message .close:hover {
+  opacity: 0.7;
+}
+
+/* CKEditor 內容顯示樣式 */
+.announcement-content {
+  text-align: left;
+  line-height: 1.8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* CKEditor 生成的常見標籤樣式 */
+.announcement-content p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.announcement-content h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+  font-weight: bold;
+}
+
+.announcement-content h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
+  font-weight: bold;
+}
+
+.announcement-content h3 {
+  font-size: 1.17em;
+  margin: 0.83em 0;
+  font-weight: bold;
+}
+
+.announcement-content ul,
+.announcement-content ol {
+  margin: 10px 0;
+  padding-left: 30px;
+}
+
+.announcement-content li {
+  margin: 5px 0;
+}
+
+.announcement-content strong,
+.announcement-content b {
+  font-weight: bold;
+}
+
+.announcement-content em,
+.announcement-content i {
+  font-style: italic;
+}
+
+.announcement-content u {
+  text-decoration: underline;
+}
+
+.announcement-content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.announcement-content a:hover {
+  color: #0056b3;
+}
+
+.announcement-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+.announcement-content blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 15px;
+  margin: 15px 0;
+  color: #666;
+  font-style: italic;
+}
+
+.announcement-content code {
+  background-color: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+.announcement-content pre {
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin: 10px 0;
+}
+
+.announcement-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.announcement-content table td,
+.announcement-content table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.announcement-content table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
 }

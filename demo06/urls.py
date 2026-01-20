@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from repair.views import repair,inquire,update,delete
-from index.views import index
+from index.views import old_index
 from register.views import register
 from login.views import login,logout
-from title_announcement.views import new_index
+from title_announcement.views import index
 from title_announcement.views import editor
+from title_announcement.views import announcement_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,11 +30,12 @@ urlpatterns = [
     path('inquire/', inquire, name='inquire'),
     path('update/<str:pk>', update, name='update'),
     path('delete/<str:pk>', delete, name='delete'),
-    path('index/',index,name='index'),
+    path('old_index/', old_index, name='old_index'),
     path('register/', register, name='register'),
     path('login/',login, name='login'),
     path('logout/',logout,name='logout'),
-    path('new_index/', new_index, name='new_index'),
+    path('index/', index, name='index'),
     path('editor.html', editor, name='editor'),
+    path('announcement/<int:announcement_id>/', announcement_detail, name='announcement_detail'),
     ]
 

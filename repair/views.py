@@ -4,7 +4,7 @@ from .repair import RepairForm
 from .models import Repair
 
 
-@login_required
+@login_required #鎖沒有登入會跳轉到登入頁面
 def repair(request):
     repairs = Repair.objects.all()
     form = RepairForm()
@@ -22,7 +22,7 @@ def repair(request):
     return render(request, 'repair.html', context)
 
 
-@login_required
+@login_required #鎖沒有登入會跳轉到登入頁面
 def inquire(request):
     inquires = Repair.objects.all()
     if request.method == 'POST':
@@ -38,7 +38,7 @@ def inquire(request):
     return render(request, 'Inquire.html', context)
 
 
-@login_required
+@login_required #鎖沒有登入會跳轉到登入頁面
 def update(request, pk):
     repairs = Repair.objects.get(id=pk)
     form = RepairForm(instance=repairs)
@@ -46,19 +46,19 @@ def update(request, pk):
         form = RepairForm(request.POST, instance=repairs)
         if form.is_valid():
             form.save()
-            return redirect("/index")
+            return redirect("/old_index")
     context = {
         'repair': form
     }
     return render(request, 'repair_update.html', context)
 
 
-@login_required
+@login_required #鎖沒有登入會跳轉到登入頁面
 def delete(request, pk):
     repairs = Repair.objects.get(id=pk)
     if request.method == 'POST':
         repairs.delete()
-        return redirect("/index")
+        return redirect("/old_index")
     context = {
         'repair': repairs
     }
