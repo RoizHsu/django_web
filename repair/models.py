@@ -11,7 +11,6 @@ class Location(models.Model):
     class Meta:
         verbose_name_plural = "位置"
 
-
 class Job_title(models.Model):
     name = models.CharField(verbose_name="職稱",max_length=10)
     def __str__(self):
@@ -19,14 +18,12 @@ class Job_title(models.Model):
     class Meta:
         verbose_name_plural = "職稱"
 
-
 class State(models.Model):
     name = models.CharField(verbose_name="狀態",max_length=5)
     def __str__(self):
         return self.name
     class Meta:
         verbose_name_plural = "狀態"
-
 
 class Repair(models.Model):
     ip = models.CharField(verbose_name="IP",max_length=255)

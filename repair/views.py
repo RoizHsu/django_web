@@ -1,11 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .repair import RepairForm
 from .models import Repair
 
 
-@login_required #鎖沒有登入會跳轉到登入頁面
 def repair(request):
+    # 檢查使用者是否已登入
+    if not request.user.is_authenticated:
+        messages.error(request, '請先登入才能訪問此頁面。')
+        return redirect('index')  # 重定向到登入頁
+    
+    # 檢查使用者是否有權限（is_staff工作人員狀態 或特定群組）
+    if not (request.user.is_staff or request.user.groups.filter(name='工程師').exists()):
+        messages.error(request, '您沒有權限訪問此頁面，請聯絡管理員申請權限。')
+        return redirect('index')  # 重定向到首頁
+    
     repairs = Repair.objects.all()
     form = RepairForm()
     if request.method == 'POST':
@@ -22,8 +32,18 @@ def repair(request):
     return render(request, 'repair.html', context)
 
 
-@login_required #鎖沒有登入會跳轉到登入頁面
+#@login_required #鎖沒有登入會跳轉到登入頁面 #改用下面的方式檢查登入和權限 #不然會衝突
 def inquire(request):
+        # 檢查使用者是否已登入
+    if not request.user.is_authenticated:
+        messages.error(request, '請先登入才能訪問此頁面。')
+        return redirect('index')  # 重定向到登入頁
+    
+    # 檢查使用者是否有權限（is_staff工作人員狀態 或特定群組）
+    if not (request.user.is_staff or request.user.groups.filter(name='工程師').exists()):
+        messages.error(request, '您沒有權限訪問此頁面，請聯絡管理員申請權限。')
+        return redirect('index')  # 重定向到首頁
+    
     inquires = Repair.objects.all()
     if request.method == 'POST':
         form = RepairForm(request.POST)
