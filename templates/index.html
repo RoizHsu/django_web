@@ -39,7 +39,7 @@
               <a href="#">聯絡方式</a>
             </li>
             <!--使用者登入登出切換-->
-          {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
             <li>
               <a class="meicon" id="workspace">
                 <img src="{% static 'img/dossier.gif' %}" width="30" height="30" />歡迎回來
@@ -49,7 +49,7 @@
               <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
               <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
             </li>
-          {% else %}
+            {% else %}
             <li>
               <a class="meicon" id="workspace">
                 <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
@@ -59,7 +59,8 @@
               <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
               <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
             </li>
-          {% endif %}
+            {% endif %}
+          </ul>
         </nav>
       </div>
     </header>
@@ -76,60 +77,49 @@
       </div>
     {% endif %}
     
-    <h1>
-      公告<dir class="time-container">
-        時間：<span id="currentTime">載入中...</span>
-      </dir>
-      {% for announcement in title_announcements %}
-       <table class="assets"  border="1" cellpadding="1" cellspacing="0">
-      <tr>
-        <td class="assetsth" width="150" align="center" valign="middle">
-          <strong>發布時間</strong>
-        </td>
-
-        <td class="assetsth" width="60" align="center" valign="middle">
-          <strong>類別</strong>
-        </td>
-        <td class="assetsth" width="100" align="center" valign="middle">
-          <strong>標題</strong>
-        </td>
-        <td class="assetstd" width="60" align="center" valign="middle">
-          <p>
-            <strong>發佈者</strong>
-          </p>
-        </td>
-      </tr>
-      <tr>  
-        <td class="assetstd" align="center">
-          <span class="style1">{{ announcement.created_at }}</span><!--發布時間-->
-        </td>
-        <td class="assetstd"  align="center">
-          <span class="style1">{{ announcement.title }}<a href="seenews.php?idno=12"></a></span><!--類別-->
-        </td> <!-- 在公告列表模板把內容改用 safe filter，讓 HTML 直接渲染。 -->            
-
-        <td>
-          <a class="back-home" href="{% url 'announcement_detail' announcement_id=announcement.pk %}" >
-          {{ announcement.title }}<!--標題-->
-          </a>
-        </td>
-
-        <td class="assetstd" align="center">
-          <span class="style1">{{ announcement.repair_user }}</span><!--發佈者-->
-        </td>
-      </tr>
-    </table>
-      {% empty %}
-        <p>目前沒有公告。</p>
-      {% endfor %}
-    </h1>
-    <input type="button" value="前往編輯頁面" onclick="location.href='{% url 'editor' %}'" />
+    <section class="announcement-board">
+      <div class="announcement-header">
+        <h1 class="announcement-heading">公告</h1>
+        <div class="time-chip">
+          <span class="time-label">時間：</span>
+          <span id="currentTime">載入中...</span>
+        </div>
+      </div>
+     <a class="ghost-link-button" type="button" style="float:left" href="{% url 'editor' %}">新增公告</a>
+     <br>
+     <br>
+      <div class="announcement-list">
+        {% for announcement in title_announcements %}
+          <article class="announcement-card">
+            <div class="announcement-meta">
+              <span class="meta-pill">{{ announcement.created_at }}</span>
+              <span class="meta-pill meta-secondary">{{ announcement.get_repair_user_name|default:"未指定" }}</span>
+            </div>
+            <h2 class="announcement-title">
+              <a class="announcement-link" href="{% url 'announcement_detail' announcement_id=announcement.pk %}">
+                {{ announcement.title }}
+              </a>
+            </h2>
+            <!--<p class="announcement-preview">
+              {{ announcement.announcement|striptags|truncatechars:80 }}
+            </p>這個先註解，顯示公告內文-->
+            <div class="announcement-actions">
+              <a class="ghost-link" href="{% url 'announcement_detail' announcement_id=announcement.pk %}">檢視公告</a>
+            </div>
+          </article>
+        {% empty %}
+          <p>目前沒有公告。</p>
+        {% endfor %}
+      </div>
+    </section>
+  
     <style>
       a.back-home {
         color: #ff9900;
         text-decoration: none;
       }
 
-      a.back-home:hover {
+      a.back-home:hover { 
         text-decoration: underline;
       }
 

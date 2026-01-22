@@ -4,8 +4,8 @@ from .models import TitleAnnouncement
 
 @admin.register(TitleAnnouncement)
 class TitleAnnouncementAdmin(ImportExportModelAdmin):
-    list_display = ('title', 'announcement', 'created_at', 'updated_at', 'get_repair_user_name', 'id')
-    search_fields = ('title', 'announcement', 'repair_user__username', 'repair_user__profile__user_name')
+    list_display = ('title', 'created_at', 'updated_at', 'get_repair_user_name', 'id')
+    search_fields = ('title', 'repair_user__username', 'repair_user__profile__user_name')
     ordering = ('-id',)
 
     def get_repair_user_name(self, obj):

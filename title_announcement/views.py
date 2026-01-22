@@ -14,7 +14,7 @@ def index(request):
     announcements = TitleAnnouncement.objects.all().order_by('-created_at')
     return render(request, 'index.html', {'title_announcements': announcements})
 
-@login_required #鎖沒有登入會跳轉到登入頁面 #公告編輯頁
+#@login_required #鎖沒有登入會跳轉到登入頁面 #公告編輯頁 #這個跟下方code會衝突所以先註解掉
 def editor(request):# 檢查使用者是否有權限（is_staff工作人員狀態 或特定群組）
     if not request.user.is_staff:
         messages.error(request, '您沒有權限訪問此頁面，請聯絡管理員申請權限。')

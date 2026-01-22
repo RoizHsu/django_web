@@ -20,13 +20,17 @@
           <!-- 其他導航 -->
           <ul>
             <li>
-              <a href="index.html">首頁公告</a>
+              <a href="{% url 'index' %}">首頁公告</a>
+            </li>
+            <li><!--移除巢狀 <a>，且修改meicon nav-link-->
+              <a class="meicon nav-link" href="{% url 'repair' %}">
+                <img src="{% static 'img/edit.gif' %}" width="30" height="30"/>登打維修單
+              </a>
             </li>
             <li>
-              <a href="#">登打維修單</a>
-            </li>
-            <li>
-              <a href="#">修改維修單</a>
+              <a class="meicon nav-link" href="{% url 'inquire' %}">
+                <img src="{% static 'img/checklist.gif' %}" width="30" height="30"/>修改維修單
+              </a>
             </li>
             <li>
               <a href="#">服務</a>
@@ -34,32 +38,101 @@
             <li>
               <a href="#">聯絡方式</a>
             </li>
-
+            <!--使用者登入登出切換-->
+          {% if user.is_authenticated %}
             <li>
               <a class="meicon" id="workspace">
-                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" />
+                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" />歡迎回來
+                {{ request.user.profile.user_name|default:request.user.username }}</a>
+            </li>
+            <li class="meicon">
+              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+              <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="meicon" id="workspace">
+                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
                 {{ request.user }} </a>
             </li>
             <li class="meicon">
-              <img src="{% static 'img/logout.gif' %}" width="30" height="30" /><a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+              <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
             </li>
+          {% endif %}
         </nav>
       </div>
     </header>
-<div class="container" style="margin-top: 50px;">
-    <h2 class="meta-pillh2">{{ announcement.title }}</h2>
-            <div class="announcement-meta">
-              <span class="meta-pill">發布時間:{{ announcement.created_at }}</span>
-              <span class="meta-pill meta-secondary">發布者:{{ announcement.get_repair_user_name|default:"未指定" }}</span>
-            </div>
-    <hr>
-    <div class="announcement-preview">
-        {{ announcement.announcement|safe }}
-    </div>
-    <hr>
-    <a href="{% url 'index' %}" class="ghost-link-button">返回列表</a>
-</div>
+    
+    <!-- 顯示系統訊息 對應 repair/views.py8-13行-->
+    {% if messages %} 
+      <div class="messages-container">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} {% if message.tags == 'error' %}error-message{% endif %}">
+            {{ message }}
+            <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <h1>
+      公告<dir class="time-container">
+        時間：<span id="currentTime">載入中...</span>
+      </dir>
+      {% for announcement in title_announcements %}
+       <table class="assets"  border="1" cellpadding="1" cellspacing="0">
+      <tr>
+        <td class="assetsth" width="150" align="center" valign="middle">
+          <strong>發布時間</strong>
+        </td>
+
+        <td class="assetsth" width="60" align="center" valign="middle">
+          <strong>類別</strong>
+        </td>
+        <td class="assetsth" width="100" align="center" valign="middle">
+          <strong>標題</strong>
+        </td>
+        <td class="assetstd" width="60" align="center" valign="middle">
+          <p>
+            <strong>發佈者</strong>
+          </p>
+        </td>
+      </tr>
+      <tr>  
+        <td class="assetstd" align="center">
+          <span class="style1">{{ announcement.created_at }}</span><!--發布時間-->
+        </td>
+        <td class="assetstd"  align="center">
+          <span class="style1">{{ announcement.title }}<a href="seenews.php?idno=12"></a></span><!--類別-->
+        </td> <!-- 在公告列表模板把內容改用 safe filter，讓 HTML 直接渲染。 -->            
+
+        <td>
+          <a class="back-home" href="{% url 'announcement_detail' announcement_id=announcement.pk %}" >
+          {{ announcement.title }}<!--標題-->
+          </a>
+        </td>
+
+        <td class="assetstd" align="center">
+          <span class="style1">{{ announcement.repair_user }}</span><!--發佈者-->
+        </td>
+      </tr>
+    </table>
+      {% empty %}
+        <p>目前沒有公告。</p>
+      {% endfor %}
+    </h1>
+    <input type="button" value="前往編輯頁面" onclick="location.href='{% url 'editor' %}'" />
     <style>
+      a.back-home {
+        color: #ff9900;
+        text-decoration: none;
+      }
+
+      a.back-home:hover {
+        text-decoration: underline;
+      }
+
       .error-message {
         background-color: #f8d7da;
         border: 1px solid #f5c6cb;
@@ -219,6 +292,20 @@
       setInterval(updateTime, 1000)
       //初始呼叫一次以顯示時間
       updateTime()
+
+      // 自動隱藏訊息（10秒後） 呼應62-71行
+      window.addEventListener('DOMContentLoaded', function() {
+        const messages = document.querySelectorAll('.alert');
+        messages.forEach(function(message) {
+          setTimeout(function() {
+            message.style.transition = 'opacity 0.5s ease-out';
+            message.style.opacity = '0';
+            setTimeout(function() {
+              message.style.display = 'none';
+            }, 500); // 淡出動畫0.5秒後完全移除
+          }, 5000); // 55秒後開始淡出
+        });
+      });
     </script>
   </body>
 </html>
