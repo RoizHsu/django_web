@@ -12,6 +12,74 @@ body {
   color: #333;
 }
 
+/* 表單欄位在同一行 */
+.form-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 8px;
+}
+
+.form-rowQA {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: stretch;
+}
+
+.form-groupQA {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
+  gap: 8px;
+}
+
+.form-groupQA label {
+  margin-right: 0;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-groupQA textarea {
+  flex: 1;
+  min-width: 100px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: none;
+}
+
+
+.form-group label {
+  margin-right: 0;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  flex: 1;
+  min-width: 80px;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
 .container {
   width: 80%;
   margin: 0 auto;
