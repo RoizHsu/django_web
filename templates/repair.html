@@ -1,13 +1,108 @@
-{% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<span>
-    <h2>新增維修單</h2>
-</span>
-<form action="" method="POST">
-    <div class="form-row">
-        <div class="form-group col-md-20">
-            <label>{{ repair.ip.label }}：</label>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XX股份有限公司-維修單管理系統</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style260122.css' %}" />
+    <script src="{% static 'js/JavaScript.js' %}"></script>
+    <script src="{% static 'js/faeye.js' %}"></script>
+  </head>
+  <body class="login-bg">
+    <!-- 頂部導覽 -->
+    <header>
+      <div class="container">
+        <nav>
+          <!-- 公司名稱 -->
+          <div class="nav-brand">✨ XX股份有限公司 - 維修單管理系統</div>
+          
+          <!-- 其他導航 -->
+          <ul>
+            <li>
+              <a href="{% url 'index' %}">首頁公告</a>
+            </li>
+            <li><!--移除巢狀 <a>，且修改meicon nav-link-->
+              <a class="meicon nav-link" href="{% url 'repair' %}">
+                <img src="{% static 'img/edit.gif' %}" width="30" height="30"/>維修單
+              </a>
+            </li>
+            <li>
+              <a href="#">服務</a>
+            </li>
+            <li>
+              <a href="#">聯絡方式</a>
+            </li>
+            <!--使用者登入登出切換-->
+            {% if user.is_authenticated %}
+            <li>
+              <a class="meicon" id="workspace">
+                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" />歡迎回來
+                {{ request.user.profile.user_name|default:request.user.username }}</a>
+            </li>
+            <li class="meicon">
+              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+              <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+            </li>
+            {% else %}
+            <li>
+              <a class="meicon" id="workspace">
+                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
+                {{ request.user }} </a>
+            </li>
+            <li class="meicon">
+              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+              <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <body>
+  <!-- 導航選單 -->
+
+  <div class="nav-container">
+    <button id="openWinBtn" class="trigger-btn">新增維修單</button>
+      <div class="time-chip">
+        <span class="time-label">時間：</span>
+        <span id="currentTime">載入中...</span>
+    </div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-page="home">🏠 維修紀錄</button>
+        <button class="nav-tab" data-page="dashboard">📊 儀表板</button>
+        <button class="nav-tab" data-page="projects">📁 專案</button>
+        <button class="nav-tab" data-page="settings">⚙️ 設定</button>
+      </div>
+    </div>
+ 
+    <section class="announcement-board">
+      <div class="announcement-header">
+  
+        <span></span>
+      </div>
+
+     
+
+      <!-- 浮動視窗 -->
+  <div id="myWindow" class="window-container">
+    <div class="window-header">
+      <div class="window-controls">
+        <span class="control close" id="closeWinBtn"></span>
+        <span class="control minimize"></span>
+        <span class="control maximize"></span>
+      </div>
+      <div class="window-title">新增維修單</div>
+    </div>
+    <div class="window-content">
+      <h3>新增維修單</h3>
+      <p>請確認一下資料登打正確。</p>
+          <form action="" method="POST">
+        <div class="form-row">
+            <div class="form-group col-md-20">
+                <label>{{ repair.ip.label }}：</label>
             {{ repair.ip }}
             </div>
         <div class="form-group col-md-19">
@@ -69,13 +164,201 @@
             </div>
     </div>
     {% csrf_token %}
-    <input class="btn btn-success" style="margin-bottom: 30px;" type="submit" value="✔儲存" />
-    <a class="btn btn-warning" style="margin-bottom: 30px;" href="{% url 'index' %}">❌取消</a>
+    <input class="ghost-link" style="margin-bottom: 30px;" type="submit" value="儲存" />
+    <input class="ghost-link" style="margin-bottom: 30px;" type="button" value="取消" />
     </form>
+    </div>
+    <div class="resizer"></div>
+  </div>
+
 
     {% for repair in repairs %}
          
     {% endfor %}
 {% endblock  %}
 
+    <style>
+      a.back-home {
+        color: #ff9900;
+        text-decoration: none;
+      }
+
+      a.back-home:hover { 
+        text-decoration: underline;
+      }
+
+      .error-message {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+        padding: 12px 20px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+      }
+      
+      .error-message .close {
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+        color: #721c24;
+      }
+      
+      .error-message .close:hover {
+        opacity: 0.7;
+      }
+
+      /* CKEditor 內容顯示樣式 */
+      .announcement-content {
+        text-align: left;
+        line-height: 1.8;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* CKEditor 生成的常見標籤樣式 */
+      .announcement-content p {
+        margin: 10px 0;
+        line-height: 1.6;
+      }
+
+      .announcement-content h1 {
+        font-size: 2em;
+        margin: 0.67em 0;
+        font-weight: bold;
+      }
+
+      .announcement-content h2 {
+        font-size: 1.5em;
+        margin: 0.75em 0;
+        font-weight: bold;
+      }
+
+      .announcement-content h3 {
+        font-size: 1.17em;
+        margin: 0.83em 0;
+        font-weight: bold;
+      }
+
+      .announcement-content ul, 
+      .announcement-content ol {
+        margin: 10px 0;
+        padding-left: 30px;
+      }
+
+      .announcement-content li {
+        margin: 5px 0;
+      }
+
+      .announcement-content strong, 
+      .announcement-content b {
+        font-weight: bold;
+      }
+
+      .announcement-content em, 
+      .announcement-content i {
+        font-style: italic;
+      }
+
+      .announcement-content u {
+        text-decoration: underline;
+      }
+
+      .announcement-content a {
+        color: #007bff;
+        text-decoration: underline;
+      }
+
+      .announcement-content a:hover {
+        color: #0056b3;
+      }
+
+      .announcement-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 10px 0;
+      }
+
+      .announcement-content blockquote {
+        border-left: 4px solid #ddd;
+        padding-left: 15px;
+        margin: 15px 0;
+        color: #666;
+        font-style: italic;
+      }
+
+      .announcement-content code {
+        background-color: #f4f4f4;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+      }
+
+      .announcement-content pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+
+      .announcement-content table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .announcement-content table td,
+      .announcement-content table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      .announcement-content table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      function updateTime() {
+        const now = new Date() //抓取當下時間
+      
+        //獲取各個時間部份
+        const year = now.getFullYear() + '年'
+        const month = String(now.getMonth() + 1).padStart(2, '0') + '月'
+        const day = String(now.getDate()).padStart(2, '0') + '日 '
+        const hours = String(now.getHours()).padStart(2, '0') + ':'
+        const minutes = String(now.getMinutes()).padStart(2, '0') + ':'
+        const seconds = String(now.getSeconds()).padStart(2, '0')
+        //格式化數字 小於10補零
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+        const formattedSeconds = seconds < 10 ? '0' + seconds : seconds
+        //組合要顯示的時間
+        const timeString = `${year}${month}${day}${hours}${formattedMinutes}${formattedSeconds}`
+        //顯示在指定位置
+        document.getElementById('currentTime').textContent = timeString
+      }
+      //每秒更新一次時間
+      setInterval(updateTime, 1000)
+      //初始呼叫一次以顯示時間
+      updateTime()
+
+      // 自動隱藏訊息（10秒後） 呼應62-71行
+      window.addEventListener('DOMContentLoaded', function() {
+        const messages = document.querySelectorAll('.alert');
+        messages.forEach(function(message) {
+          setTimeout(function() {
+            message.style.transition = 'opacity 0.5s ease-out';
+            message.style.opacity = '0';
+            setTimeout(function() {
+              message.style.display = 'none';
+            }, 500); // 淡出動畫0.5秒後完全移除
+          }, 5000); // 55秒後開始淡出
+        });
+      });
+    </script>
 

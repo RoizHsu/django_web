@@ -41,7 +41,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  flex: 1;
+  flex: 2;
   min-width: 0;
   gap: 8px;
 }
@@ -909,4 +909,163 @@ a.back-home:hover {
   .announcement-header {
     align-items: flex-start;
   }
+}
+/* 啟動按鈕樣式 - 美化升級 */
+.trigger-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 視窗容器 - 預設隱藏並縮小 */
+.window-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 950px;
+  height: 800px;
+  min-width: 300px;
+  min-height: 200px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3),
+              0 0 0 1px rgba(255, 255, 255, 0.1);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.3s ease-out;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+/* 視窗啟動狀態 - 彈跳動畫 */
+.window-container.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* 拖拽中 */
+.window-container.dragging {
+  cursor: move;
+  transition: none;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* 調整大小中 */
+.window-container.resizing {
+  transition: none;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* 視窗標題列美化 */
+.window-header {
+  height: 45px;
+  background: linear-gradient(180deg, #f7f7f7 0%, #e8e8e8 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  cursor: move;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+/* 視窗控制按鈕 (關閉、最小化、最大化) */
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.control.close {
+  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
+  box-shadow: 0 2px 4px rgba(255, 59, 48, 0.3);
+}
+
+.control.minimize {
+  background: linear-gradient(135deg, #ffbd2e 0%, #ffa000 100%);
+  box-shadow: 0 2px 4px rgba(255, 160, 0, 0.3);
+}
+
+.control.maximize {
+  background: linear-gradient(135deg, #28c840 0%, #27c93f 100%);
+  box-shadow: 0 2px 4px rgba(39, 201, 63, 0.3);
+}
+
+/* 視窗框 */
+.window-title {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* 視窗內容美化 */
+.window-content {
+  padding: 30px;
+  flex: 1;
+  overflow: auto;
+  background: white;
+}
+
+.window-content h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.window-content p {
+  margin: 0;
+  line-height: 1.6;
+  color: #666;
+  font-size: 15px;
+}
+
+/* 縮放手把美化 */
+.resizer {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, transparent 50%, #667eea 50%);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: nwse-resize;
+  opacity: 0.5;
+  transition: opacity 0.2s;
 }

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<span>
+    <h2>新增維修單</h2>
+</span>
+<form action="" method="POST">
+    <div class="form-row">
+        <div class="form-group col-md-20">
+            <label>{{ repair.ip.label }}：</label>
+            {{ repair.ip }}
+            </div>
+        <div class="form-group col-md-19">
+            <label>{{ repair.ext.label }}：</label>
+            {{ repair.ext }}
+            </div>
+        <div class="form-group col-md-18">
+            <label>{{ repair.name.label }}：</label>
+            {{ repair.name }}
+            </div>
+        <div class="form-group col-md-17">
+            <label>{{ repair.share.label }}：</label>
+            {{ repair.share }}
+            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-16">
+            <label>{{ repair.jt.label }}：</label>
+            {{ repair.jt }}
+            </div>
+        <div class="form-group col-md-15">
+            {{ repair.repair_user }}
+            </div>
+        <div class="form-group col-md-14">
+            <label>{{ repair.location.label }}：</label>
+            {{ repair.location }}
+            </div>
+        <div class="form-group col-md-13">
+            <label>{{ repair.F.label }}：</label>
+            {{ repair.F }}樓
+        </div>
+        <div class="form-group col-md-12">
+            <label>{{ repair.office.label }}：</label>
+            {{ repair.office }}
+            </div>
+    </div>
+    <div class="form-rowQA">
+        <div class="form-groupQA">
+            <label>{{ repair.Q.label }}：</label>
+            {{ repair.Q }}
+            </div>
+        <div class="form-groupQA">
+            <label>{{ repair.A.label }}：</label>
+            {{ repair.A }}
+            </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-">
+            <label>{{ repair.state.label }}：</label>
+            {{ repair.state }}
+            </div>
+        <div class="form-group col-md-">
+            <label>{{ repair.start.label }}：</label>
+            {{ repair.start }}
+            </div>
+        <div class="form-group col-md-">
+            <label>{{ repair.finish.label }}：</label>
+            {{ repair.finish }}
+            </div>
+    </div>
+    {% csrf_token %}
+    <input class="btn btn-success" style="margin-bottom: 30px;" type="submit" value="✔儲存" />
+    <a class="btn btn-warning" style="margin-bottom: 30px;" href="{% url 'index' %}">❌取消</a>
+    </form>
+
+    {% for repair in repairs %}
+         
+    {% endfor %}
+{% endblock  %}
+
+
