@@ -66,7 +66,7 @@ def update(request, pk):
         form = RepairForm(request.POST, instance=repairs)
         if form.is_valid():
             form.save()
-            return redirect("/old_index")
+            return redirect("/repair")
     context = {
         'repair': form
     }

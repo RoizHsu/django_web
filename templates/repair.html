@@ -8,6 +8,7 @@
     <title>XX股份有限公司-維修單管理系統</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style260122.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sheet.css' %}">
     <script src="{% static 'js/JavaScript.js' %}"></script>
     <script src="{% static 'js/faeye.js' %}"></script>
   </head>
@@ -61,29 +62,73 @@
         </nav>
       </div>
     </header>
-    <body>
+
   <!-- 導航選單 -->
 
   <div class="nav-container">
     <button id="openWinBtn" class="trigger-btn">新增維修單</button>
-      <div class="time-chip">
-        <span class="time-label">時間：</span>
-        <span id="currentTime">載入中...</span>
-    </div>
       <div class="nav-tabs">
-        <button class="nav-tab active" data-page="home">🏠 維修紀錄</button>
-        <button class="nav-tab" data-page="dashboard">📊 儀表板</button>
-        <button class="nav-tab" data-page="projects">📁 專案</button>
-        <button class="nav-tab" data-page="settings">⚙️ 設定</button>
+        <div class="time-chip">
+          <span class="time-label">時間：</span>
+          <span id="currentTime">載入中...</span>
+        </div>
+          <button class="nav-tab active" data-page="home">🏠 維修紀錄</button>
+          <button class="nav-tab" data-page="dashboard">📁 資料庫修改</button>
+          <button class="nav-tab" data-page="settings">⚙️ 設定</button>
       </div>
     </div>
- 
-    <section class="announcement-board">
-      <div class="announcement-header">
-  
-        <span></span>
-      </div>
+    <!-- 儀表板 -->
+    <section class="page-content active" id="home">
+      <div class="content-card">
+        <h1>📊 維修紀錄表</h1>
+    <div class="wrap">
+      <table id="DataTalbe">
+        <thead>
+          <tr>
+            <th>狀態</th>
+            <th>單號</th>
+            <th>科室</th>
+            <th>叫修人</th>
+            <th>分機</th>
+            <th>IP</th>
+            <th>維修時間</th>
+            <th>工程師</th>
+            <th>報修問題</th>
+            <th>回復報修</th>
+            <th>維修結束</th>
+            <th>操作</th>
+          </tr>
+            </thead>
+        <tbody>
+          {% for repair in repairs %}
+            <td>{{ repair.state }}</td>
+            <td>{{ repair.id }}</td>
+            <td>{{ repair.office }}</td>
+            <td>{{ repair.name }}</td>
+            <td>{{ repair.ext }}</td>
+            <td>{{ repair.ip }}</td>
+            <td>{{ repair.start }}</td>
+            <td>{{ repair.get_repair_user_name }}</td>
+            <td>{{ repair.Q }}</td>
+            <td>{{ repair.A }}</td>
+            <td>{{ repair.finish }}</td>
+            <td>
+              <a href="{% url 'update' repair.id %}" class="ghost-link">修改</a>
 
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- 分頁控制 -->
+    <div id="pagination" class="pagination-controls">
+      <button id="prevPage" class="pagination-btn" type="button">上一頁</button>
+      <span id="pageInfo" class="page-info">第 1 頁</span>
+      <button id="nextPage" class="pagination-btn" type="button">下一頁</button>
+    </div>
+      </div>
+    </section>
      
 
       <!-- 浮動視窗 -->
@@ -102,7 +147,7 @@
           <form action="" method="POST">
         <div class="form-row">
             <div class="form-group col-md-20">
-                <label>{{ repair.ip.label }}：</label>
+            <label>{{ repair.ip.label }}：</label>
             {{ repair.ip }}
             </div>
         <div class="form-group col-md-19">
@@ -165,17 +210,92 @@
     </div>
     {% csrf_token %}
     <input class="ghost-link" style="margin-bottom: 30px;" type="submit" value="儲存" />
-    <input class="ghost-link" style="margin-bottom: 30px;" type="button" value="取消" />
     </form>
     </div>
     <div class="resizer"></div>
   </div>
 
-
     {% for repair in repairs %}
          
     {% endfor %}
-{% endblock  %}
+
+      <!-- 浮動視窗 - 修改維修單 
+  <div id="updateWindow" class="window-container">
+    <div class="window-header">
+      <div class="window-controls">
+        <span class="control close" id="closeUpdateWinBtn"></span>
+        <span class="control minimize"></span>
+        <span class="control maximize"></span>
+      </div>
+      <div class="window-title">修改維修單</div>
+    </div>
+    <div class="window-content">
+      <h3>修改維修單</h3>
+      <p>請確認一下資料登打正確。</p>
+      <form action="" method="POST">
+        {% csrf_token %}
+      <div class="form-group col-md-20">
+            <label>{{ repair.ip.label }}：</label>
+            {{ repair.ip }}
+            </div>
+        <div class="form-group col-md-19">
+            <label>{{ repair.ext.label }}：</label>
+            {{ repair.ext }}
+            </div>
+        <div class="form-group col-md-18">
+            <label>{{ repair.name.label }}：</label>
+            {{ repair.name }}
+            </div>
+        <div class="form-group col-md-17">
+            <label>{{ repair.share.label }}：</label>
+            {{ repair.share }}
+            </div>
+        <div class="form-group col-md-16">
+            <label>{{ repair.jt.label }}：</label>
+            {{ repair.jt }}
+            </div>
+        {{ repair.repair_user }}
+        <div class="form-group col-md-14">
+            <label>{{ repair.location.label }}：</label>
+            {{ repair.location }}
+            </div>
+        <div class="form-group col-md-13">
+            <label>{{ repair.F.label }}：</label>
+            {{ repair.F }}
+            </div>
+        <div class="form-group col-md-12">
+            <label>{{ repair.office.label }}：</label>
+            {{ repair.office }}
+            </div>
+        <div class="form-group col-md-11">
+            <label>{{ repair.Q.label }}：</label>
+            {{ repair.Q }}
+            </div>
+        <div class="form-group col-md-10">
+            <label>{{ repair.A.label }}：</label>
+            {{ repair.A }}
+            </div>
+        <div class="form-group col-md-9">
+            <label>{{ repair.state.label }}：</label>
+            {{ repair.state }}
+            </div>
+        <div class="form-group col-md-8">
+            <label>{{ repair.start.label }}：</label>
+            {{ repair.start }} 
+            </div>
+        <div class="form-group col-md-7">
+            <label>{{ repair.finish.label }}：</label>
+            {{ repair.finish }}
+            </div>
+  </form>
+    <input class="ghost-link" style="margin-bottom: 30px;" type="submit" value="儲存" />
+    </div>
+    <div class="resizer"></div>
+  </div>-->
+
+{% endblock %}
+
+
 
     <style>
       a.back-home {

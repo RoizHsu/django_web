@@ -738,9 +738,9 @@ a.back-home:hover {
 
 /* 公告卡片版型容器與網格 */
 .announcement-board {
-  max-width: 1100px;
+  max-width: 98%;
   margin: 30px auto 50px;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 /* 標題列：左側標題 + 右側時間膠囊 */
