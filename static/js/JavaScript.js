@@ -26,24 +26,24 @@ const maximizeBtn = document.querySelector('.maximize');
 const header = win ? win.querySelector('.window-header') : null;
 const resizer = win ? win.querySelector('.resizer') : null;
 
-// 修改視窗
-const updateWinBtns = document.querySelectorAll('.updateWinBtn');
-const closeUpdateWinBtn = document.getElementById('closeUpdateWinBtn');
-const updateWin = document.getElementById('updateWindow');
-const minimizeUpdateWinBtn = updateWin ? updateWin.querySelector('.minimize') : null;
-const updateHeader = updateWin ? updateWin.querySelector('.window-header') : null;
-const updateResizer = updateWin ? updateWin.querySelector('.resizer') : null;
+// 修改視窗（已停用）
+// const updateWinBtns = document.querySelectorAll('.updateWinBtn');
+// const closeUpdateWinBtn = document.getElementById('closeUpdateWinBtn');
+// const updateWin = document.getElementById('updateWindow');
+// const minimizeUpdateWinBtn = updateWin ? updateWin.querySelector('.minimize') : null;
+// const updateHeader = updateWin ? updateWin.querySelector('.window-header') : null;
+// const updateResizer = updateWin ? updateWin.querySelector('.resizer') : null;
 
 // 若視窗元素未載入完成，只略過視窗初始化，不要阻斷後續功能（例如表格分頁）
-const hasWindowUI = openBtn && closeBtn && minimizeBtn && maximizeBtn && win && header && resizer && updateResizer;
-const hasUpdateWindowUI = updateWinBtns.length > 0 && closeUpdateWinBtn && updateWin && updateHeader;
+const hasWindowUI = openBtn && closeBtn && minimizeBtn && maximizeBtn && win && header && resizer;
+// const hasUpdateWindowUI = updateWinBtns.length > 0 && closeUpdateWinBtn && updateWin && updateHeader;
 if (!hasWindowUI) {
   console.warn('Window UI elements not found; skipping window init.');
 }
-if (!hasUpdateWindowUI) {
-  console.warn('Update Window UI elements not found; skipping update window init.');
-  console.log('updateWinBtns.length:', updateWinBtns.length, 'closeUpdateWinBtn:', closeUpdateWinBtn, 'updateWin:', updateWin);
-}
+// if (!hasUpdateWindowUI) {
+//   console.warn('Update Window UI elements not found; skipping update window init.');
+//   console.log('updateWinBtns.length:', updateWinBtns.length, 'closeUpdateWinBtn:', closeUpdateWinBtn, 'updateWin:', updateWin);
+// }
 
 if (hasWindowUI) {
   let isMaximized = false;
@@ -69,22 +69,9 @@ if (hasWindowUI) {
       }
     }, 400);
   });
-minimizeUpdateWinBtn
+
   // 最小化功能 (縮小到按鈕位置)
   minimizeBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    win.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s';
-    win.style.transform = 'translate(-50%, -50%) scale(0.1)';
-    win.style.opacity = '0';
-    
-    setTimeout(() => {
-      win.style.display = 'none';
-      win.style.transform = 'translate(-50%, -50%) scale(0.8)';
-      win.classList.remove('active');
-    }, 400);
-  });
-    // 最小化功能 (縮小到按鈕位置)
-  minimizeUpdateWinBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     win.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s';
     win.style.transform = 'translate(-50%, -50%) scale(0.1)';
@@ -232,7 +219,8 @@ minimizeUpdateWinBtn
   });
 }
 
-// ========== 修改視窗功能 ==========
+// ========== 修改視窗功能（已停用） ==========
+/*
 if (hasUpdateWindowUI) {
   let isUpdateMaximized = false;
   let updatePrevDimensions = { width: 0, height: 0, top: 0, left: 0 };
@@ -423,6 +411,7 @@ if (hasUpdateWindowUI) {
     }
   });
 }
+*/
 
 
 // ========== 表格分頁功能 ==========

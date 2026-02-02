@@ -31,18 +31,17 @@ body {
 
 .form-rowQA {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;  /* 改為 wrap 允許換行 */
   gap: 15px;
   margin-bottom: 15px;
-  align-items: stretch;
+  align-items: flex-start;  /* 改為 flex-start 防止拉伸 */
 }
 
 .form-groupQA {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  flex: 2;
-  min-width: 0;
+  flex: 1;  /* 平均分配寬度 */
+  min-width: 350px;  /* 設置最小寬度，不要太窄 */
   gap: 8px;
 }
 
@@ -56,10 +55,15 @@ body {
 .form-groupQA textarea {
   flex: 1;
   min-width: 100px;
-  padding: 6px 8px;
+  padding: 12px 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  resize: none;
+  resize: vertical;  /* 改為 vertical 允許縮放 */
+  min-height: 150px;
+  width: 100%;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 
@@ -590,151 +594,7 @@ body.login-bg {
   align-items: center;
 }
 
-/* 260116 update  */
-a.back-home {
-  color: #ff9900;
-  text-decoration: none;
-}
 
-a.back-home:hover {
-  text-decoration: underline;
-}
-
-.error-message {
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
-  padding: 12px 20px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-}
-
-.error-message .close {
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-  color: #721c24;
-}
-
-.error-message .close:hover {
-  opacity: 0.7;
-}
-
-/* CKEditor 內容顯示樣式 */
-.announcement-content {
-  text-align: left;
-  line-height: 1.8;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-/* CKEditor 生成的常見標籤樣式 */
-.announcement-content p {
-  margin: 10px 0;
-  line-height: 1.6;
-}
-
-.announcement-content h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
-  font-weight: bold;
-}
-
-.announcement-content h2 {
-  font-size: 1.5em;
-  margin: 0.75em 0;
-  font-weight: bold;
-}
-
-.announcement-content h3 {
-  font-size: 1.17em;
-  margin: 0.83em 0;
-  font-weight: bold;
-}
-
-.announcement-content ul,
-.announcement-content ol {
-  margin: 10px 0;
-  padding-left: 30px;
-}
-
-.announcement-content li {
-  margin: 5px 0;
-}
-
-.announcement-content strong,
-.announcement-content b {
-  font-weight: bold;
-}
-
-.announcement-content em,
-.announcement-content i {
-  font-style: italic;
-}
-
-.announcement-content u {
-  text-decoration: underline;
-}
-
-.announcement-content a {
-  color: #007bff;
-  text-decoration: underline;
-}
-
-.announcement-content a:hover {
-  color: #0056b3;
-}
-
-.announcement-content img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 10px 0;
-}
-
-.announcement-content blockquote {
-  border-left: 4px solid #ddd;
-  padding-left: 15px;
-  margin: 15px 0;
-  color: #666;
-  font-style: italic;
-}
-
-.announcement-content code {
-  background-color: #f4f4f4;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: 'Courier New', monospace;
-}
-
-.announcement-content pre {
-  background-color: #f4f4f4;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
-  margin: 10px 0;
-}
-
-.announcement-content table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 10px 0;
-}
-
-.announcement-content table td,
-.announcement-content table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.announcement-content table th {
-  background-color: #f2f2f2;
-  font-weight: bold;
-}
 
 /* 公告卡片版型容器與網格 */
 .announcement-board {
@@ -1068,4 +928,251 @@ a.back-home:hover {
   cursor: nwse-resize;
   opacity: 0.5;
   transition: opacity 0.2s;
+}
+
+/* 針對 form-group 內的所有輸入元件 */
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* 強制 textarea 換行 */
+.form-group textarea {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    resize: vertical;
+}
+
+/* ===== 2026年1月29日 修改 - Textarea 換行與表單樣式 ===== */
+
+/* 返回主頁連結樣式 */
+a.back-home {
+    color: #ff9900;
+    text-decoration: none;
+}
+
+a.back-home:hover { 
+    text-decoration: underline;
+}
+
+/* 強制 textarea 換行 */
+textarea {
+    word-wrap: break-word !important;/*important重要的*/
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    max-width: 100% !important;
+    resize: vertical !important;
+}
+/* 會影響QA行數 */
+.form-rowQA textarea {
+    min-height: 80px !important;
+    width: 100% !important;
+}
+/* 會影響QA行數 */
+.form-groupQA textarea {
+    min-height: 80px !important;
+    width: 100% !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+}
+
+/* 錯誤訊息樣式 */
+.error-message {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.error-message .close {
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+    color: #721c24;
+}
+
+.error-message .close:hover {
+    opacity: 0.7;
+}
+
+/* ===== 2026年1月30日 修改 - 修改頁面美化 ===== */
+
+/* 修改容器樣式 */
+.update-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 40px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border: 1px solid #e0e7ff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.update-container h2 {
+    color: #1f2937;
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.form-hint {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 25px;
+    padding: 10px 15px;
+    background: #f3f4f6;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+}
+
+/* 返回按鈕 */
+.nav-back-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.nav-back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+/* 按鈕組容器 */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #e5e7eb;
+    justify-content: flex-end;
+}
+
+/* 主按鈕（更新） */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* 次按鈕（返回） */
+.btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+    transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* 表單行優化 */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background-color: #f9fafb;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .update-container {
+        margin: 15px;
+        padding: 25px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }

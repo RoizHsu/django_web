@@ -101,6 +101,7 @@
             </thead>
         <tbody>
           {% for repair in repairs %}
+          <tr>
             <td>{{ repair.state }}</td>
             <td>{{ repair.id }}</td>
             <td>{{ repair.office }}</td>
@@ -114,7 +115,6 @@
             <td>{{ repair.finish }}</td>
             <td>
               <a href="{% url 'update' repair.id %}" class="ghost-link">修改</a>
-
             </td>
           </tr>
           {% endfor %}
@@ -144,73 +144,81 @@
     <div class="window-content">
       <h3>新增維修單</h3>
       <p>請確認一下資料登打正確。</p>
-          <form action="" method="POST">
+      <form action="" method="POST">
         <div class="form-row">
-            <div class="form-group col-md-20">
+          <div class="form-group col-md-6">
             <label>{{ repair.ip.label }}：</label>
             {{ repair.ip }}
-            </div>
-        <div class="form-group col-md-19">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.ext.label }}：</label>
             {{ repair.ext }}
-            </div>
-        <div class="form-group col-md-18">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.name.label }}：</label>
             {{ repair.name }}
-            </div>
-        <div class="form-group col-md-17">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.share.label }}：</label>
             {{ repair.share }}
-            </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-16">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label>{{ repair.jt.label }}：</label>
             {{ repair.jt }}
-            </div>
-        <div class="form-group col-md-15">
+          </div>
+          <!--這邊這行不太需要了
+          <div class="form-group col-md-6">
             {{ repair.repair_user }}
-            </div>
-        <div class="form-group col-md-14">
+          </div>-->
+          <div class="form-group col-md-6">
             <label>{{ repair.location.label }}：</label>
             {{ repair.location }}
-            </div>
-        <div class="form-group col-md-13">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.F.label }}：</label>
-            {{ repair.F }}樓
-        </div>
-        <div class="form-group col-md-12">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              {{ repair.F }}
+            </div>
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.office.label }}：</label>
             {{ repair.office }}
-            </div>
-    </div>
-    <div class="form-rowQA">
-        <div class="form-groupQA">
+          </div>
+        </div>
+        
+        <div class="form-rowQA">
+          <div class="form-group col-md-12">
             <label>{{ repair.Q.label }}：</label>
             {{ repair.Q }}
-            </div>
-        <div class="form-groupQA">
+          </div>
+          <div class="form-group col-md-12">
             <label>{{ repair.A.label }}：</label>
             {{ repair.A }}
-            </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label>{{ repair.state.label }}：</label>
             {{ repair.state }}
-            </div>
-        <div class="form-group col-md-">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.start.label }}：</label>
             {{ repair.start }}
-            </div>
-        <div class="form-group col-md-">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.finish.label }}：</label>
             {{ repair.finish }}
-            </div>
-    </div>
-    {% csrf_token %}
-    <input class="ghost-link" style="margin-bottom: 30px;" type="submit" value="儲存" />
-    </form>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          {% csrf_token %}
+          <button class="btn btn-primary" type="submit">✔ 儲存</button>
+        </div>
+      </form>
     </div>
     <div class="resizer"></div>
   </div>
@@ -219,7 +227,7 @@
          
     {% endfor %}
 
-      <!-- 浮動視窗 - 修改維修單 
+      <!-- 浮動視窗 - 修改維修單 -->
   <div id="updateWindow" class="window-container">
     <div class="window-header">
       <div class="window-controls">
@@ -234,215 +242,82 @@
       <p>請確認一下資料登打正確。</p>
       <form action="" method="POST">
         {% csrf_token %}
-      <div class="form-group col-md-20">
+        
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label>{{ repair.ip.label }}：</label>
             {{ repair.ip }}
-            </div>
-        <div class="form-group col-md-19">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.ext.label }}：</label>
             {{ repair.ext }}
-            </div>
-        <div class="form-group col-md-18">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.name.label }}：</label>
             {{ repair.name }}
-            </div>
-        <div class="form-group col-md-17">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.share.label }}：</label>
             {{ repair.share }}
-            </div>
-        <div class="form-group col-md-16">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label>{{ repair.jt.label }}：</label>
             {{ repair.jt }}
-            </div>
-        {{ repair.repair_user }}
-        <div class="form-group col-md-14">
+          </div>
+          {{ repair.repair_user }}
+          <div class="form-group col-md-6">
             <label>{{ repair.location.label }}：</label>
             {{ repair.location }}
-            </div>
-        <div class="form-group col-md-13">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.F.label }}：</label>
             {{ repair.F }}
-            </div>
-        <div class="form-group col-md-12">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.office.label }}：</label>
             {{ repair.office }}
-            </div>
-        <div class="form-group col-md-11">
+          </div>
+        </div>
+        
+        <div class="form-rowQA">
+          <div class="form-group col-md-12">
             <label>{{ repair.Q.label }}：</label>
             {{ repair.Q }}
-            </div>
-        <div class="form-group col-md-10">
+          </div>
+          <div class="form-group col-md-12">
             <label>{{ repair.A.label }}：</label>
             {{ repair.A }}
-            </div>
-        <div class="form-group col-md-9">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group col-md-6">
             <label>{{ repair.state.label }}：</label>
             {{ repair.state }}
-            </div>
-        <div class="form-group col-md-8">
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.start.label }}：</label>
-            {{ repair.start }} 
-            </div>
-        <div class="form-group col-md-7">
+            {{ repair.start }}
+          </div>
+          <div class="form-group col-md-6">
             <label>{{ repair.finish.label }}：</label>
             {{ repair.finish }}
-            </div>
-  </form>
-    <input class="ghost-link" style="margin-bottom: 30px;" type="submit" value="儲存" />
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit">✔ 儲存</button>
+        </div>
+      </form>
     </div>
     <div class="resizer"></div>
-  </div>-->
-
-{% endblock %}
-
+  </div>
+   
 
 
-    <style>
-      a.back-home {
-        color: #ff9900;
-        text-decoration: none;
-      }
-
-      a.back-home:hover { 
-        text-decoration: underline;
-      }
-
-      .error-message {
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-        color: #721c24;
-        padding: 12px 20px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-      }
-      
-      .error-message .close {
-        cursor: pointer;
-        font-size: 24px;
-        font-weight: bold;
-        color: #721c24;
-      }
-      
-      .error-message .close:hover {
-        opacity: 0.7;
-      }
-
-      /* CKEditor 內容顯示樣式 */
-      .announcement-content {
-        text-align: left;
-        line-height: 1.8;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      /* CKEditor 生成的常見標籤樣式 */
-      .announcement-content p {
-        margin: 10px 0;
-        line-height: 1.6;
-      }
-
-      .announcement-content h1 {
-        font-size: 2em;
-        margin: 0.67em 0;
-        font-weight: bold;
-      }
-
-      .announcement-content h2 {
-        font-size: 1.5em;
-        margin: 0.75em 0;
-        font-weight: bold;
-      }
-
-      .announcement-content h3 {
-        font-size: 1.17em;
-        margin: 0.83em 0;
-        font-weight: bold;
-      }
-
-      .announcement-content ul, 
-      .announcement-content ol {
-        margin: 10px 0;
-        padding-left: 30px;
-      }
-
-      .announcement-content li {
-        margin: 5px 0;
-      }
-
-      .announcement-content strong, 
-      .announcement-content b {
-        font-weight: bold;
-      }
-
-      .announcement-content em, 
-      .announcement-content i {
-        font-style: italic;
-      }
-
-      .announcement-content u {
-        text-decoration: underline;
-      }
-
-      .announcement-content a {
-        color: #007bff;
-        text-decoration: underline;
-      }
-
-      .announcement-content a:hover {
-        color: #0056b3;
-      }
-
-      .announcement-content img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 10px 0;
-      }
-
-      .announcement-content blockquote {
-        border-left: 4px solid #ddd;
-        padding-left: 15px;
-        margin: 15px 0;
-        color: #666;
-        font-style: italic;
-      }
-
-      .announcement-content code {
-        background-color: #f4f4f4;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-family: 'Courier New', monospace;
-      }
-
-      .announcement-content pre {
-        background-color: #f4f4f4;
-        padding: 10px;
-        border-radius: 5px;
-        overflow-x: auto;
-        margin: 10px 0;
-      }
-
-      .announcement-content table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 10px 0;
-      }
-
-      .announcement-content table td,
-      .announcement-content table th {
-        border: 1px solid #ddd;
-        padding: 8px;
-      }
-
-      .announcement-content table th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-      }
-    </style>
     <script>
       function updateTime() {
         const now = new Date() //抓取當下時間
@@ -481,4 +356,5 @@
         });
       });
     </script>
+{% endblock %}
 

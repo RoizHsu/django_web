@@ -83,3 +83,5 @@ def delete(request, pk):
         'repair': repairs
     }
     return render(request, 'repair_delete.html', context)
+
+

@@ -14,11 +14,13 @@ class RepairForm(forms.ModelForm):
             'share': forms.TextInput(attrs={'class': 'form-control'}),
             'F': forms.NumberInput(attrs={'class': 'form-control'}),
             'office': forms.TextInput(attrs={'class': 'form-control'}),
-            'Q': forms.TextInput(attrs={'class': 'form-control'}),
-            'A': forms.TextInput(attrs={'class': 'form-control'}),
+            'Q': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 30}),
+            #rows: 4高度（4 行）cols: 40寬度（約 40 個字元）
+            'A': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 30}),
+             #rows: 4高度（4 行）cols: 40寬度（約 40 個字元）
             'repair_user': forms.HiddenInput(),
-            'start': forms.DateTimeInput(attrs={'type': 'datetime'}),
-            'finish': forms.DateTimeInput(attrs={'type': 'datetime-local'})
+            'start': forms.DateTimeInput(attrs={'type': 'datetime-local'},format='%Y-%m-%dT%H:%M'),
+            'finish': forms.DateTimeInput(attrs={'type': 'datetime-local'},format='%Y-%m-%dT%H:%M')
         }
         labels = {
             'ip': 'IP',

@@ -35,8 +35,8 @@ class Repair(models.Model):
     location = models.ForeignKey(verbose_name="位置", to=Location, on_delete=models.CASCADE)
     F = models.IntegerField(verbose_name="樓層", default=0)
     office = models.CharField(verbose_name="科室",max_length=255)
-    Q = models.CharField(verbose_name="報修問題",max_length=255)
-    A = models.CharField(verbose_name="回復報修",max_length=255)
+    Q = models.TextField(verbose_name="報修問題")
+    A = models.TextField(verbose_name="回復報修")
     state = models.ForeignKey(verbose_name="狀態", to=State, on_delete=models.CASCADE)
     start = models.DateTimeField(verbose_name="維修時間", default=timezone.now)#每次更新就會更新時間
     finish = models.DateTimeField(verbose_name="維修結束", null=True, blank=True)
