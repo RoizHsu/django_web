@@ -12,15 +12,12 @@ Django 管理介面，提供完整的資料管理功能。
 
 ---
 
-### 註冊用戶畫面
+### 登入及註冊用戶畫面
 
 使用者可以透過此介面註冊新帳號。
 
 <img width="402" alt="註冊表單" src="https://github.com/user-attachments/assets/9ec52d02-1676-4e56-9dc7-7bf32ee512c3" />
 
-<img width="1235" alt="註冊頁面完整視圖" src="https://github.com/user-attachments/assets/61e930e8-d4a2-4ead-944f-4ee7f15373fc" />
-
----
 
 ### 登入畫面 260108更新排本
 
@@ -38,9 +35,21 @@ Django 管理介面，提供完整的資料管理功能。
 
 ---
 
+## 首頁公告及維修登打260204
+
+<img width="1901" height="872" alt="image" src="https://github.com/user-attachments/assets/c48b824b-b96e-45e2-9d83-7bd674dcbf5a" />
+<img width="1759" height="864" alt="image" src="https://github.com/user-attachments/assets/3a532eb8-3a86-4556-b045-46b8e7ddbe5b" />
+<img width="1309" height="926" alt="image" src="https://github.com/user-attachments/assets/ff38c0d0-afff-4776-ad31-dfc89b28a21e" />
+<img width="1076" height="881" alt="image" src="https://github.com/user-attachments/assets/f2a732a1-cc33-431a-a159-702cae3f1901" />
+
+
+
+---
 - **後端框架**: Django
 - **前端**:  HTML/CSS/JavaScript
 - **資料庫**: [請補充你使用的資料庫]
+## 新增人資資料庫系統260204
+<img width="809" height="771" alt="image" src="https://github.com/user-attachments/assets/ecd4e3ac-8dc6-45ec-874b-0d82fe8cea5b" />
 
 ## 安裝與執行
 
