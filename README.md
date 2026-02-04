@@ -48,6 +48,8 @@ Django 管理介面，提供完整的資料管理功能。
 - **後端框架**: Django
 - **前端**:  HTML/CSS/JavaScript
 - **資料庫**: [請補充你使用的資料庫]
+## 新增人資資料庫系統260204
+<img width="809" height="771" alt="image" src="https://github.com/user-attachments/assets/ecd4e3ac-8dc6-45ec-874b-0d82fe8cea5b" />
 
 ## 安裝與執行
 
