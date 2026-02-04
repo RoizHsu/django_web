@@ -22,50 +22,48 @@
           
           <!-- 其他導航 -->
           <ul>
-            {% if user.is_authenticated %}
-            <li>
-              <a class="meicon" id="workspace">
-                <img src="{% static 'img/userform.gif' %}" width="30" height="30" />歡迎回來
-                {{ request.user.profile.user_name|default:request.user.username }}</a>
-            </li>
-            <li>
-              <a class="meicon nav-link" href="{% url 'index' %}">
-                <img src="{% static 'img/sign.gif' %}" width="30" height="30"/>首頁公告
-              </a>
-            </li>
-            <li><!--移除巢狀 <a>，且修改meicon nav-link-->
-              <a class="meicon nav-link" href="{% url 'repair' %}">
-                <img src="{% static 'img/edit.gif' %}" width="30" height="30"/>維修單
-              </a>
-            </li>
-            <!--新增修改維修單連結-
+              <li>
+                <a class="meicon nav-link" href="{% url 'index' %}"><img src="{% static 'img/sign.gif' %}" width="30" height="30" />首頁公告</a>
+              </li>
+              <li>
+                <!-- 移除巢狀 <a>，且修改meicon nav-link -->
+                <a class="meicon nav-link" href="{% url 'repair' %}">
+                  <img src="{% static 'img/edit.gif' %}" width="30" height="30" />維修單
+                </a>
+              </li>
+              <!-- 新增修改維修單連結-
             <li>
               <a class="meicon nav-link" href="{% url 'inquire' %}">
                 <img src="{% static 'img/checklist.gif' %}" width="30" height="30"/>修改維修單
               </a>
             </li>
-            -->
-            <li>
-              <a class="meicon nav-link" href="#">
-              <img src="{% static 'img/registration.gif' %}" width="30" height="30" />服務及聯絡方式
-              </a>
-            </li>
-            <!--使用者登入登出切換-->
-        
-            <li class="meicon">
-              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
-              <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
-            </li>
+             -->
+              <li>
+                <a class="meicon nav-link" href="#"><img src="{% static 'img/registration.gif' %}" width="30" height="30" />服務及聯絡方式</a>
+              </li>
+              <!-- 使用者登入登出切換 -->
+            {% if user.is_authenticated %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/userform.gif' %}" width="30" height="30" />歡迎回來
+                  {{ request.user.profile.user_name|default:request.user.username }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+              </li>
             {% else %}
-            <li>
-              <a class="meicon" id="workspace">
-                <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
-                {{ request.user }} </a>
-            </li>
-            <li class="meicon">
-              <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
-              <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
-            </li>
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
+                  {{ request.user }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
+              </li>
             {% endif %}
           </ul>
         </nav>

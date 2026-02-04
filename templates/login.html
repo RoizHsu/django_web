@@ -18,19 +18,47 @@
 
           <!-- 其他導航 -->
           <ul>
+              <li>
+                <a class="meicon nav-link" href="{% url 'index' %}"><img src="{% static 'img/sign.gif' %}" width="30" height="30" />首頁公告</a>
+              </li>
+              <li>
+                <!-- 移除巢狀 <a>，且修改meicon nav-link -->
+                <a class="meicon nav-link" href="{% url 'repair' %}"><img src="{% static 'img/edit.gif' %}" width="30" height="30" />維修單</a>
+              </li>
+              <!-- 新增修改維修單連結-
             <li>
-              <a href="{% url 'index' %}">首頁公告</a>
+              <a class="meicon nav-link" href="{% url 'inquire' %}">
+                <img src="{% static 'img/checklist.gif' %}" width="30" height="30"/>修改維修單
+              </a>
             </li>
-            <li>
-              <a href="#">服務</a>
-            </li>
-            <li>
-              <a href="#">聯絡方式</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">登入</a>
-            </li>
+             -->
+              <li>
+                <a class="meicon nav-link" href="#"><img src="{% static 'img/registration.gif' %}" width="30" height="30" />服務及聯絡方式</a>
+              </li>
+              <!-- 使用者登入登出切換 -->
+            {% if user.is_authenticated %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/userform.gif' %}" width="30" height="30" />歡迎回來
+                  {{ request.user.profile.user_name|default:request.user.username }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+              </li>
+            {% else %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
+                  {{ request.user }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
+              </li>
+            {% endif %}
           </ul>
         </nav>
       </div>
@@ -52,9 +80,9 @@
         <input type="text" id="account" name="username" placeholder="請輸入帳號" required />
         <label for="password">密碼</label>
         <div class="password-field">
-        <input type="password" id="password" name="password" placeholder="請輸入密碼" required />
-        <!--當type = text 是 password 時 遊覽器會自動帶入小黑點並保護隱私-->
-        <!-- <span class="toggle-password" onclick="togglePassword()">👁</span> -->
+          <input type="password" id="password" name="password" placeholder="請輸入密碼" required />
+          <!-- 當type = text 是 password 時 遊覽器會自動帶入小黑點並保護隱私 -->
+          <!-- <span class="toggle-password" onclick="togglePassword()">👁</span> -->
         </div>
 
         <label class="remember"><input type="checkbox" name="remember" />記住我</label>

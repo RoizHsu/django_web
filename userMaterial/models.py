@@ -14,7 +14,7 @@ class UserMaterial(models.Model):
     PC = models.CharField(verbose_name="電腦型號",max_length=255)#PC
     LCD = models.CharField(verbose_name="螢幕型號",max_length=255)#LCD
     MacAddress = models.CharField(max_length=255)#mac
-    dey = models.DateTimeField(default=timezone.now())
+    dey = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.name  # 顯示
     class Meta:
