@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'demo06.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',  # 使用 mssql-django 作為驅動
-        'NAME': 'django_web',  # 替換為你的資料庫名稱
-        'USER': 'django001',  # 替換為你的使用者名稱
-        'PASSWORD': 'Django0105#',  # 替換為你的密碼
+        'NAME': 'django_web',  # 資料庫名稱
+        'USER': 'django001',  # 使用者名稱
+        'PASSWORD': 'Django0105#',  # 密碼
         'HOST': 'localhost',  # 可以是伺服器名稱或 IP（例如：'127.0.0.1'）
         'PORT': '1433',  # 預設 SQL Server 的埠號
         'OPTIONS': {
