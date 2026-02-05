@@ -2,44 +2,68 @@
 {% block title %}{% endblock %}
 {% block content %}
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XX股份有限公司</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XX股份有限公司</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style260122.css' %}" />
+    <script src="{% static 'js/faeye.js' %}"></script>
+  </head>
+  <body class="login-bg">
   <!-- 頂部導覽 -->
-<header>
-  <div class="container">
-    <nav>
-      <!-- 公司名稱 -->
-      <div class="logo">XX股份有限公司</div>
-
-      <!-- 下拉選單 -->
-      <div class="dropdown">
-        <a href="#" class="cta-btn">選單</a>
-        <div class="dropdown-content">
-          <a href="#">商品 1</a>
-          <a href="#">商品 2</a>
-          <a href="#">商品 3</a>
-          <a href="#">商品 4</a>
-        </div>
+ <header>
+      <div class="container">
+        <nav>
+          <!-- 公司名稱 -->
+          <div class="nav-brand">✨ XX股份有限公司</div>
+          <!-- 其他導航 -->
+          <ul>
+              <li>
+                <a class="meicon nav-link" href="{% url 'index' %}"><img src="{% static 'img/sign.gif' %}" width="30" height="30" />首頁公告</a>
+              </li>
+              <li>
+                <!-- 移除巢狀 <a>，且修改meicon nav-link -->
+                <a class="meicon nav-link" href="{% url 'repair' %}"><img src="{% static 'img/edit.gif' %}" width="30" height="30" />維修單</a>
+              </li>
+              <!-- 新增修改維修單連結-
+            <li>
+              <a class="meicon nav-link" href="{% url 'inquire' %}">
+                <img src="{% static 'img/checklist.gif' %}" width="30" height="30"/>修改維修單
+              </a>
+            </li>
+             -->
+              <li>
+                <a class="meicon nav-link" href="#"><img src="{% static 'img/registration.gif' %}" width="30" height="30" />服務及聯絡方式</a>
+              </li>
+              <!-- 使用者登入登出切換 -->
+            {% if user.is_authenticated %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/userform.gif' %}" width="30" height="30" />歡迎回來
+                  {{ request.user.profile.user_name|default:request.user.username }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+              </li>
+            {% else %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
+                  {{ request.user }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
       </div>
-
-      <!-- 其他導航 -->
-      <ul>
-        <li><a href="#">首頁</a></li>
-        <li><a href="#">關於我們</a></li>
-        <li><a href="#">服務</a></li>
-        <li><a href="#">聯絡方式</a></li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">登入</a>
-          </li>
-      </ul>
-    </nav>
-  </div>
-</header>
+    </header>
   <!-- 註冊表單 -->
   <div class="login-container left">
     <h2>會員註冊</h2>

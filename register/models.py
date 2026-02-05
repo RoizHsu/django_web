@@ -10,10 +10,18 @@ class Job_Positions(models.Model):
     class Meta:
         verbose_name_plural = "員工職稱"
 
+class Department(models.Model):
+    name = models.CharField(verbose_name="部門名稱",max_length=10)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name_plural = "部門名稱"
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     user_name = models.CharField(max_length=50, blank=True, null=True, verbose_name='姓名')
-    identity = models.CharField(max_length=10, blank=True, null=True, verbose_name='身份證字號')
+    identity = models.CharField(max_length=10, blank=True, null=True,unique=True, verbose_name='身份證字號')
+    department = models.ForeignKey(to=Department, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='員工部門')
     jobp = models.ForeignKey(to=Job_Positions, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='員工職稱')
     address = models.CharField(max_length=255, blank=True, null=True, verbose_name='地址')
     phone = models.CharField(max_length=15, blank=True, null=True, verbose_name='電話')
@@ -26,7 +34,7 @@ class UserProfile(models.Model):
         on_delete=models.SET_NULL,#移除UER時，將群組設為空值且不刪除群組
         null=True, #允許群組欄位為空值
         blank=True, #允許表單提交時群組欄位為空值
-        verbose_name='所屬群組')
+        verbose_name='權限群組')
     def save(self, *args, **kwargs):
         # 在保存用戶資料時，同步更新關聯的 User 模型的 Group群組和 Email
         super().save(*args, **kwargs)

@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile
 
-
+###自定義註冊表單，繼承自Django內建的UserCreationForm，並添加額外的欄位
 class RegisterForm(UserCreationForm):
     user_name = forms.CharField(
         label="姓名",
@@ -26,10 +26,20 @@ class RegisterForm(UserCreationForm):
         required=False,
         widget=forms.DateInput(attrs={"class": "form-control", "type": "date"})
     )
-
+    address = forms.CharField(
+        label="地址",
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    identity = forms.CharField(
+        label="身份證字號",
+        max_length=10,
+        required=False,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username","user_name","email","identity","password1","password2","birthday","address","phone")
 
     def clean_username(self):
         #驗證用戶名是否已存在
@@ -54,6 +64,8 @@ class RegisterForm(UserCreationForm):
                 user_name=self.cleaned_data.get("user_name"),
                 phone=self.cleaned_data.get("phone"),
                 birthday=self.cleaned_data.get("birthday"),
-                email=self.cleaned_data.get("email")
+                email=self.cleaned_data.get("email"),
+                address=self.cleaned_data.get("address"),
+                identity=self.cleaned_data.get("identity")
             )
         return user

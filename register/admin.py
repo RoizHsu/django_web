@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile , Job_Positions
+from .models import UserProfile , Job_Positions, Department
 
 # 自定義顯示方式
 class UserProfileAdmin(admin.ModelAdmin):
@@ -10,6 +10,11 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Job_Positions)
 class Job_PositionsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id')
+    ordering = ('id',)
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'id')
     ordering = ('id',)
 

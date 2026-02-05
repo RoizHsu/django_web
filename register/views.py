@@ -4,6 +4,7 @@ from django.contrib.auth import login
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_protect
 from .forms import RegisterForm
+from django.db import transaction
 
 @csrf_protect
 def register(request):
@@ -12,15 +13,20 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             try:
-                user = form.save()  # 這裡會同時建立 User 和 UserProfile
-                messages.success(request, "註冊成功！請先登入。")
-                return redirect("login")  # 註冊後跳轉到登入頁
+                with transaction.atomic():
+                    user = form.save()  # 這裡會同時建立 User 和 UserProfile   # 使用原子交易確保資料一致性
+                    login(request, user)  # 註冊後自動登入
+                    return redirect("login")  # 註冊後跳轉到登入頁
             except IntegrityError as e:
                 # 捕獲資料庫完整性約束錯誤
                 if 'username' in str(e):
                     error_message = '此帳號已存在，請使用其他帳號。'
                 elif 'email' in str(e):
                     error_message = '此電子郵件已被註冊，請使用其他電子郵件。'
+                elif 'identity' in str(e):
+                    error_message = '此身份證字號已被註冊，請確認身份證字號。'
+                elif 'phone' in str(e):
+                    error_message = '此電話號碼已被註冊，請使用其他電話號碼。'
                 else:
                     error_message = '註冊失敗，請檢查輸入資料。'
         else:
