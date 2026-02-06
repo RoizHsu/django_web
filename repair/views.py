@@ -24,7 +24,7 @@ def repair(request):
             repair_obj = form.save(commit=False)
             repair_obj.repair_user = request.user
             repair_obj.save()
-            return redirect("/inquire")
+            return redirect("/index")
     context = {
         'repair': form,
         'repairs': repairs
