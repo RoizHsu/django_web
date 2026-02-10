@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/style260122.css' %}" />
     <link rel="stylesheet" href="{% static 'css/sheet.css' %}">
     <script src="{% static 'js/JavaScript.js' %}"></script>
+    <!--vue.js-->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="{% static 'js/faeye.js' %}"></script>
   </head>
   <body class="login-bg">
@@ -148,7 +150,7 @@
       </div>
       <div class="window-title">新增維修單</div>
     </div>
-    <div class="window-content">
+    <div class="window-content" id="app">
       <h3>新增維修單</h3>
       <p>請確認一下資料登打正確。</p>
       <form action="" method="POST">
@@ -362,6 +364,70 @@
           }, 5000); // 55秒後開始淡出
         });
       });
+      // Vue.js 3 的程式碼
+    const { createApp } = Vue;
+    createApp({
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                user_material: { name: '', office: '', share: '', ip: '', ext: '' },
+                error: false,
+                errorMessage: ''
+            }
+      },
+      mounted() {
+        const extInput = document.getElementById('id_ext');
+        const ipInput = document.getElementById('id_ip');
+        const nameInput = document.getElementById('id_name');
+        const shareInput = document.getElementById('id_share');
+        const officeInput = document.getElementById('id_office');
+
+        this.user_material.ext = extInput ? extInput.value : '';
+        this.user_material.ip = ipInput ? ipInput.value : '';
+        this.user_material.name = nameInput ? nameInput.value : '';
+        this.user_material.share = shareInput ? shareInput.value : '';
+        this.user_material.office = officeInput ? officeInput.value : '';
+      },
+        methods: {
+          async fetchEmployeeData(type) {
+            const params = new URLSearchParams();
+
+            // 根據輸入的類型（分機或IP）來決定要傳送哪個參數
+            if (type === 'ext' && this.user_material.ext) {
+              params.append('ext', this.user_material.ext);
+            }
+            if (type === 'ip' && this.user_material.ip) {
+              params.append('ip', this.user_material.ip);
+            }
+
+            if (!params.toString()) {
+              return; // 如果兩者都沒有值，就不發送請求
+            }
+
+            // 注意這裡的網址要跟 urls.py 設定的一模一樣
+            try {
+              const response = await fetch(`/repair/get_userMaterial_data?${params.toString()}`);
+              const data = await response.json();
+
+              if (data.success) {
+                this.user_material.name = data.name;
+                this.user_material.office = data.office;
+                this.user_material.share = data.share;
+                this.user_material.ip = data.ip;
+                this.user_material.ext = data.ext;
+                this.error = false;
+              } else {
+                this.user_material = { name: '查無此人', office: '', share: '', ip: '', ext: '' };
+                this.error = true;
+                this.errorMessage = '找不到該分機資料';
+              }
+            } catch (err) {
+              console.error("API連線錯誤", err);
+            }
+          }
+        }
+    }).mount('#app');
+      
     </script>
 {% endblock %}
 

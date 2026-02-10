@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from repair.views import repair,inquire,update,delete
+from repair.views import repair,inquire,update,delete,get_userMaterial_data
 from index.views import old_index
 from register.views import register
 from login.views import login,logout
@@ -26,6 +26,8 @@ from title_announcement.views import announcement_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('repair/get', repair, name='repair'),
+    path('repair/get_userMaterial_data', get_userMaterial_data, name='get_userMaterial_data'),
     path('repair/', repair, name='repair'),
     path('inquire/', inquire, name='inquire'),
     path('update/<str:pk>', update, name='update'),

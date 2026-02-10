@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .repair import RepairForm
 from .models import Repair
+from userMaterial.models import UserMaterial
+from django.http import JsonResponse
 
 
 def repair(request):
@@ -83,5 +85,29 @@ def delete(request, pk):
         'repair': repairs
     }
     return render(request, 'repair_delete.html', context)
+
+def get_userMaterial_data(request):
+    # 從網址獲取參數，例如 /api/get_userMaterial/?ext=1244
+    ext_number = request.GET.get('ext', None)
+    ip_number = request.GET.get('ip', None)
+    #預設失敗，如果找到資料再改成成功，這樣前端就可以根據 success 來判斷是否有找到資料
+    results = {'success': False, 'name': '', 'department': '', 'ip': ''}
+    user_Material = None
+
+    if ip_number:
+        user_Material = UserMaterial.objects.filter(ip=ip_number).first()
+    elif ext_number:
+        user_Material = UserMaterial.objects.filter(ext=ext_number).first()
+    if user_Material:
+        results={
+            'success': True,
+            'name': user_Material.name,
+            'ext': user_Material.ext,
+            'office': user_Material.office,
+            'share': user_Material.share,
+            'ip': user_Material.ip,
+            }
+    # 回傳 JSON 格式 Vue 的 fetch 會收到的東西
+    return JsonResponse(results)
 
 

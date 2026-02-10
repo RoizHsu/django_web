@@ -8,12 +8,12 @@ class RepairForm(forms.ModelForm):
         model = Repair
         fields = '__all__'
         widgets = {
-            'ip': forms.TextInput(attrs={'class': 'form-control'}),
-            'ext': forms.NumberInput(attrs={'class': 'form-control'}),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'share': forms.TextInput(attrs={'class': 'form-control'}),
+            'ip': forms.TextInput(attrs={'class': 'form-control', 'v-model': 'user_material.ip', '@change': "fetchEmployeeData('ip')"}),
+            'ext': forms.NumberInput(attrs={'class': 'form-control', 'v-model': 'user_material.ext', '@change': "fetchEmployeeData('ext')"}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'v-model': 'user_material.name'}),
+            'share': forms.TextInput(attrs={'class': 'form-control', 'v-model': 'user_material.share'}),
             'F': forms.NumberInput(attrs={'class': 'form-control'}),
-            'office': forms.TextInput(attrs={'class': 'form-control'}),
+            'office': forms.TextInput(attrs={'class': 'form-control', 'v-model': 'user_material.office'}),
             'Q': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 30}),
             #rows: 4高度（4 行）cols: 40寬度（約 40 個字元）
             'A': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'cols': 30}),

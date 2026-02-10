@@ -27,6 +27,7 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=15, blank=True, null=True, verbose_name='電話')
     email = models.EmailField(max_length=254, blank=True, null=True, unique=True, verbose_name='電子郵件')
     birthday = models.DateField(blank=True, null=True, verbose_name='生日')
+    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='薪資')
     created_at = models.DateTimeField(default=timezone.now, verbose_name='到職日期')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='更新日期')
     group = models.ForeignKey(
