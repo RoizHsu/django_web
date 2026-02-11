@@ -55,3 +55,16 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} 的個人資料"
     
+class Calendar_Shift(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendars')
+    title = models.CharField(max_length=100, verbose_name='事件標題')
+    description = models.TextField(blank=True, null=True, verbose_name='事件描述')
+    start_time = models.DateTimeField(verbose_name='開始時間', help_text="0-23")
+    end_time = models.DateTimeField(verbose_name='結束時間',help_text="0-23")
+
+    class Meta:
+        verbose_name = '員工行事曆'
+        verbose_name_plural = '員工行事曆'
+
+    def __str__(self):
+        return f"{self.user.username} 行事曆: {self.title}"

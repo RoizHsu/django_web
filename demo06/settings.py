@@ -38,17 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',
+    'ckeditor',#富文本編輯器
     'repair.apps.RepairConfig',
     'userMaterial.apps.UsermaterialConfig',
     'register.apps.RegisterConfig',
     'title_announcement.apps.TitleAnnouncementConfig',
-    'import_export'
+    'import_export',#匯入匯出功能
+    'rest_framework',#新增的 Django REST framework 應用
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whiteonoise.middleware.WhiteNoiseMiddleware',  # 用於服務靜態文件
+    #'whitenoise.middleware.WhiteNoiseMiddleware',  # 用於服務靜態文件
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
