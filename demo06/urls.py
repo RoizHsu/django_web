@@ -14,11 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from repair.views import repair,inquire,update,delete,get_userMaterial_data
 from index.views import old_index
-from register.views import register
+from register.views import register, calendar_shifts_api
 from login.views import login,logout
 from title_announcement.views import index
 from title_announcement.views import editor
@@ -26,6 +28,7 @@ from title_announcement.views import announcement_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('repair/get', repair, name='repair'),
     path('repair/get_userMaterial_data', get_userMaterial_data, name='get_userMaterial_data'),
     path('repair/', repair, name='repair'),
@@ -38,6 +41,14 @@ urlpatterns = [
     path('logout/',logout,name='logout'),
     path('index/', index, name='index'),
     path('editor.html', editor, name='editor'),
+
     path('announcement/<int:announcement_id>/', announcement_detail, name='announcement_detail'),
-    ]
+    
+    # API endpoints
+    path('register/api/calendar-shifts/', calendar_shifts_api, name='calendar_shifts_api'),
+    
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

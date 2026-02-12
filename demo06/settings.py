@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',#富文本編輯器
+    'django_ckeditor_5',  # 富文本編輯器
     'repair.apps.RepairConfig',
     'userMaterial.apps.UsermaterialConfig',
     'register.apps.RegisterConfig',
@@ -46,6 +46,17 @@ INSTALLED_APPS = [
     'import_export',#匯入匯出功能
     'rest_framework',#新增的 Django REST framework 應用
 ]
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'link',
+            'bulletedList', 'numberedList', 'blockQuote', '|',
+            'undo', 'redo',
+        ],
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,6 +151,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

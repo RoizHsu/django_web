@@ -56,11 +56,20 @@ class UserProfile(models.Model):
         return f"{self.user.username} 的個人資料"
     
 class Calendar_Shift(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendars')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendars',verbose_name='派遣人員')
     title = models.CharField(max_length=100, verbose_name='事件標題')
     description = models.TextField(blank=True, null=True, verbose_name='事件描述')
     start_time = models.DateTimeField(verbose_name='開始時間', help_text="0-23")
     end_time = models.DateTimeField(verbose_name='結束時間',help_text="0-23")
+    repair_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='repair_calendars', verbose_name='發布工程師')
+
+    def get_repair_user_name(self):
+        """取得維修工程師姓名"""
+        if self.repair_user:
+            if hasattr(self.repair_user, 'profile') and self.repair_user.profile.user_name:
+                return self.repair_user.profile.user_name
+            return self.repair_user.username
+        return "未指定"
 
     class Meta:
         verbose_name = '員工行事曆'

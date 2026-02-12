@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登入 - XX股份有限公司</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style260122.css' %}" />
+    <script src="{% static 'js/faeye.js' %}"></script>
+  </head>
+  <body class="login-bg">
+    <!-- 頂部導覽 -->
+    <header>
+      <div class="container">
+        <nav>
+          <!-- 公司名稱 -->
+          <div class="nav-brand">✨ XX股份有限公司</div>
+          <!-- 其他導航 -->
+          <ul>
+              <li>
+                <a class="meicon nav-link" href="{% url 'index' %}"><img src="{% static 'img/sign.gif' %}" width="30" height="30" />首頁公告</a>
+              </li>
+              <li>
+                <!-- 移除巢狀 <a>，且修改meicon nav-link -->
+                <a class="meicon nav-link" href="{% url 'repair' %}"><img src="{% static 'img/edit.gif' %}" width="30" height="30" />維修單</a>
+              </li>
+              <!-- 新增修改維修單連結-
+            <li>
+              <a class="meicon nav-link" href="{% url 'inquire' %}">
+                <img src="{% static 'img/checklist.gif' %}" width="30" height="30"/>修改維修單
+              </a>
+            </li>
+             -->
+              <li>
+                <a class="meicon nav-link" href="#"><img src="{% static 'img/registration.gif' %}" width="30" height="30" />服務及聯絡方式</a>
+              </li>
+              <!-- 使用者登入登出切換 -->
+            {% if user.is_authenticated %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/userform.gif' %}" width="30" height="30" />歡迎回來
+                  {{ request.user.profile.user_name|default:request.user.username }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'logout' %}">{{ repair.get_repair_user_name }}登出</a>
+              </li>
+            {% else %}
+              <li>
+                <a class="meicon" id="workspace">
+                  <img src="{% static 'img/dossier.gif' %}" width="30" height="30" /> 歡迎，請登入
+                  {{ request.user }}
+                </a>
+              </li>
+              <li class="meicon">
+                <img src="{% static 'img/logout.gif' %}" width="30" height="30" />
+                <a class="nav-link" href="{% url 'login' %}">{{ repair.get_repair_user_name }}登入</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+    <!-- 顯示系統訊息 對應 repair/views.py8-13行-->
+    {% if messages %} 
+      <div class="messages-container">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} {% if message.tags == 'error' %}error-message{% endif %}">
+            {{ message }}
+            <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <section class="announcement-board">
+      <div class="announcement-header">
+        <h1 class="announcement-heading">公告</h1>
+        <div class="time-chip">
+          <span class="time-label">時間：</span>
+          <span id="currentTime">載入中...</span>
+        </div>
+      </div>
+      <div class="scheduler-container">
+    <div class="timeline-header">
+      <div class="resource-label">員工 / 時間</div>
+      <div v_for="h in 24" :key="h" class="time-slot">{{ h-1 }}:00</div>
+    </div>
+
+    <div v-for="emp in employees" :key="emp.id" class="employee-row">
+      <div class="resource-label">{{ emp.name }}</div>
+      
+      <div class="grid-content">
+        <div v-for="h in 24" :key="h" class="grid-line"></div>
+        
+        <div 
+          v-for="shift in emp.shifts" 
+          :key="shift.id"
+          class="event-bar"
+          :style="getEventStyle(shift)"
+        >
+          {{ shift.task_name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
+const employees = ref([]);
+
+// 獲取 Django API 資料
+onMounted(async () => {
+  const response = await axios.get('/api/employees/');
+  employees.value = response.data;
+});
+
+// 計算 CSS Grid 位置
+const getEventStyle = (shift) => {
+  // grid-column: 起始線 / 結束線
+  // 因為 0:00 是第一條線，所以要 +1
+  return {
+    gridColumnStart: shift.start_hour + 1,
+    gridColumnEnd: shift.end_hour + 1,
+    backgroundColor: '#4A90E2'
+  };
+};
+</script>
+
+<style scoped>
+.scheduler-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+}
+
+.timeline-header, .employee-row {
+  display: grid;
+  grid-template-columns: 120px repeat(24, 1fr); /* 120px 給名字，其餘 24 等分 */
+  border-bottom: 1px solid #eee;
+}
+
+.resource-label {
+  background: #f5f5f5;
+  padding: 10px;
+  font-weight: bold;
+  border-right: 2px solid #ddd;
+}
+
+.grid-content {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  grid-column: 2 / 26; /* 佔滿 24 小時區塊 */
+  position: relative;
+  height: 50px;
+}
+
+.grid-line {
+  border-right: 1px solid #f0f0f0;
+}
+
+.event-bar {
+  position: relative;
+  margin: 5px 2px;
+  padding: 5px;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+}
+</style>
