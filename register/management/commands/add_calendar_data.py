@@ -2,6 +2,8 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from register.models import Calendar_Shift
 from datetime import datetime, timedelta
+from django.utils import timezone
+import pytz
 
 
 class Command(BaseCommand):
@@ -32,8 +34,12 @@ class Command(BaseCommand):
             self.stdout.write('提示: 使用 python manage.py createsuperuser 創建用戶')
             return
         
-        # 今天的日期
-        today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        # 獲取台北時區
+        taipei_tz = pytz.timezone('Asia/Taipei')
+        
+        # 今天的日期（台北時區）
+        now_taipei = datetime.now(taipei_tz)
+        today = now_taipei.replace(hour=0, minute=0, second=0, microsecond=0)
         
         # 為每個用戶添加班次
         shifts_data = [

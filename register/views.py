@@ -8,6 +8,8 @@ from django.db import transaction
 from django.http import JsonResponse
 from .models import Calendar_Shift, UserProfile
 from django.contrib.auth.models import User
+from django.utils import timezone
+import pytz
 
 @csrf_protect
 def register(request):
@@ -48,6 +50,9 @@ def register(request):
 def calendar_shifts_api(request):
     """提供日曆班次數據的 API"""
     try:
+        # 獲取台北時區
+        taipei_tz = pytz.timezone('Asia/Taipei')
+        
         # 獲取所有用戶及其班次
         users = User.objects.filter(calendars__isnull=False).distinct()
         
@@ -63,22 +68,26 @@ def calendar_shifts_api(request):
             
             shifts_data = []
             for shift in shifts:
-                # 提取開始和結束的小時數
-                start_hour = shift.start_time.hour
-                end_hour = shift.end_time.hour
+                # 轉換為台北時區
+                start_time_taipei = shift.start_time.astimezone(taipei_tz)
+                end_time_taipei = shift.end_time.astimezone(taipei_tz)
+                
+                # 提取開始和結束的小時數（台北時區）
+                start_hour = start_time_taipei.hour
+                end_hour = end_time_taipei.hour
                 
                 # 如果結束時間是 0:00，設為 24（代表當天結束）
-                if end_hour == 0 and shift.end_time.date() > shift.start_time.date():
+                if end_hour == 0 and end_time_taipei.date() > start_time_taipei.date():
                     end_hour = 24
                 
-                shifts_data.append({
+                shifts_data.append({  #json回傳的資料格式
                     'id': shift.id,
                     'title': shift.title,
                     'description': shift.description or '',
                     'start_hour': start_hour,
                     'end_hour': end_hour,
-                    'start_time': shift.start_time.strftime('%Y-%m-%d %H:%M'),
-                    'end_time': shift.end_time.strftime('%Y-%m-%d %H:%M'),
+                    'start_time': start_time_taipei.strftime('%Y-%m-%d %H:%M'),
+                    'end_time': end_time_taipei.strftime('%Y-%m-%d %H:%M'),
                 })
             
             employees_data.append({

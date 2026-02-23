@@ -30,7 +30,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('repair/get', repair, name='repair'),
-    path('repair/get_userMaterial_data', get_userMaterial_data, name='get_userMaterial_data'),
     path('repair/', repair, name='repair'),
     path('inquire/', inquire, name='inquire'),
     path('update/<str:pk>', update, name='update'),
@@ -44,8 +43,9 @@ urlpatterns = [
 
     path('announcement/<int:announcement_id>/', announcement_detail, name='announcement_detail'),
     
-    # API endpoints
+    # API 
     path('register/api/calendar-shifts/', calendar_shifts_api, name='calendar_shifts_api'),
+    path('repair/get_userMaterial_data', get_userMaterial_data, name='get_userMaterial_data'),
     
 ]
 

@@ -7,6 +7,8 @@
 from django.contrib.auth.models import User
 from register.models import Calendar_Shift
 from datetime import datetime, timedelta
+from django.utils import timezone
+import pytz
 
 def add_test_data():
     """添加測試日曆班次數據"""
@@ -21,8 +23,12 @@ def add_test_data():
     # 清除舊的測試數據（可選）
     # Calendar_Shift.objects.all().delete()
     
-    # 今天的日期
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    # 獲取台北時區
+    taipei_tz = pytz.timezone('Asia/Taipei')
+    
+    # 今天的日期（台北時區）
+    now_taipei = datetime.now(taipei_tz)
+    today = now_taipei.replace(hour=0, minute=0, second=0, microsecond=0)
     
     # 為每個用戶添加班次
     shifts_data = [

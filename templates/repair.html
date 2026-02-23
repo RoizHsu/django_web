@@ -236,32 +236,58 @@
       <div class="content-card">
         <h1>📅 日歷</h1>
         <div id="calendar-app">
+          <!-- 日期選擇器 -->
+          <div class="date-selector">
+            <button @click="previousDay" class="date-nav-btn">◀ 前一天</button>
+            <div class="current-date">
+              <span class="date-display">[[ formatDate(currentDate) ]]</span>
+              <input 
+                type="date" 
+                v-model="currentDateInput" 
+                @change="onDateChange"
+                class="date-picker"
+              />
+            </div>
+            <button @click="nextDay" class="date-nav-btn">後一天 ▶</button>
+            <button @click="goToday" class="today-btn">今天</button>
+          </div>
+          
           <div class="scheduler-container">
             <div class="timeline-header">
               <div class="resource-label">員工 / 時間</div>
               <div v-for="h in 24" :key="h" class="time-slot">[[ h-1 ]]:00</div>
             </div>
 
-            <div v-for="emp in employees" :key="emp.id" class="employee-row">
+            <div v-for="emp in filteredEmployees" :key="emp.id" class="employee-row">
               <div class="resource-label">[[ emp.name ]]</div>
               
-              <div class="grid-content">
-                <div v-for="h in 24" :key="h" class="grid-line"></div>
-                
-                <div 
-                  v-for="shift in emp.shifts" 
-                  :key="shift.id"
-                  class="event-bar"
-                  :style="getEventStyle(shift)"
-                  :title="shift.description"
-                >
-                  [[ shift.title ]]
-                </div>
+              <!-- 24小時背景格線  因為第一列為員工，時間要從第二列開始 所以H+1 -->
+              <div 
+                v-for="h in 24" 
+                :key="'grid-'+h" 
+                class="grid-cell"
+                :style="{ gridColumn: h + 1 }"  
+              ></div>
+              
+              <!-- 班次事件 -->
+              <div 
+                v-for="shift in emp.shifts" 
+                :key="'shift-'+shift.id"
+                class="event-bar"
+                :style="getEventStyle(shift)"
+                :title="shift.description"
+              >
+                [[ shift.title ]]
               </div>
             </div>
             
             <div v-if="employees.length === 0" class="no-data">
               <p>暫無員工班次資料</p>
+            </div>
+            
+            <div v-if="filteredEmployees.length === 0 && employees.length > 0" class="no-data">
+              <p>😊 這天沒有排班</p>
+              <p style="font-size: 0.9rem; color: #aaa;">選擇其他日期查看班次</p>
             </div>
           </div>
         </div>
@@ -269,6 +295,97 @@
     </section>
 
 <style>
+.date-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  background: linear-gradient(135deg, #e6cb83 0%, #f8b465 100%);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.current-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.date-display {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  min-width: 200px;
+  text-align: center;
+}
+
+.date-picker {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.date-picker:hover {
+  border-color: #667eea;
+}
+
+.date-picker:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.date-nav-btn {
+  padding: 10px 20px;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #667eea;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.date-nav-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.date-nav-btn:active {
+  transform: translateY(0);
+}
+
+.today-btn {
+  padding: 10px 20px;
+  background: #ffd93d;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.today-btn:hover {
+  background: #ffc93d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
 .scheduler-container {
   display: flex;
   flex-direction: column;
@@ -314,29 +431,26 @@
   position: sticky;
   left: 0;
   z-index: 5;
+  grid-row: 1;
+  grid-column: 1;  /*設定起始和結束位置*/
+}
+
+.employee-row {
+  position: relative;
 }
 
 .employee-row:hover {
   background-color: #f8f9fa;
 }
 
-.grid-content {
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  grid-column: 2 / 26;
-  position: relative;
-  min-height: 60px;
-}
-
-.grid-line {
+.grid-cell {
   border-right: 1px solid #f0f0f0;
+  grid-row: 1; /*設定格線在同一格 */
 }
 
 .event-bar {
-  position: absolute;
-  top: 5px;
-  bottom: 5px;
-  margin: 0 2px;
+  grid-row: 1;
+  margin: 5px 2px;
   padding: 8px;
   color: white;
   border-radius: 4px;
@@ -347,6 +461,9 @@
   text-overflow: ellipsis;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .event-bar:hover {
@@ -495,7 +612,7 @@
           }, 5000); // 55秒後開始淡出
         });
       });
-      // Vue.js 3 的程式碼 - 表單應用
+      // Vue.js 3 的程式碼 - 表單應用自動抓取資料
     const { createApp } = Vue;
     createApp({
         delimiters: ['[[', ']]'],
@@ -566,10 +683,31 @@
             return {
                 employees: [],
                 loading: true,
-                error: null
+                error: null,
+                currentDate: new Date(),
+                currentDateInput: ''
+            }
+        },
+        computed: {
+            // 過濾出當前日期的班次
+            filteredEmployees() {
+                const selectedDate = this.formatDateYMD(this.currentDate);
+                
+                return this.employees.map(emp => {
+                    const filteredShifts = emp.shifts.filter(shift => {
+                        const shiftDate = shift.start_time.split(' ')[0];
+                        return shiftDate === selectedDate;
+                    });
+                    
+                    return {
+                        ...emp,
+                        shifts: filteredShifts
+                    };
+                }).filter(emp => emp.shifts.length > 0);
             }
         },
         mounted() {
+            this.currentDateInput = this.formatDateYMD(this.currentDate);
             this.fetchCalendarData();
         },
         methods: {
@@ -590,14 +728,52 @@
                     this.loading = false;
                 }
             },
+            formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+                const weekday = weekdays[date.getDay()];
+                
+                return `${year}年${month}月${day}日 星期${weekday}`;
+            },
+            formatDateYMD(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            },
+            previousDay() {
+                const newDate = new Date(this.currentDate);
+                newDate.setDate(newDate.getDate() - 1);
+                this.currentDate = newDate;
+                this.currentDateInput = this.formatDateYMD(newDate);
+            },
+            nextDay() {
+                const newDate = new Date(this.currentDate);
+                newDate.setDate(newDate.getDate() + 1);
+                this.currentDate = newDate;
+                this.currentDateInput = this.formatDateYMD(newDate);
+            },
+            goToday() {
+                this.currentDate = new Date();
+                this.currentDateInput = this.formatDateYMD(this.currentDate);
+            },
+            onDateChange() {
+                this.currentDate = new Date(this.currentDateInput);
+            },
             getEventStyle(shift) {
                 // 計算事件在 Grid 中的位置
                 const colors = ['#4A90E2', '#50C878', '#FF6B6B', '#FFD93D', '#A78BFA', '#FC7F3C'];
                 const colorIndex = shift.id % colors.length;
                 
+                // Grid column 從 2 開始（第1列是員工名稱）
+                // 時間 0:00 對應第 2 列，所以要 +2
+                const startCol = shift.start_hour + 2;
+                const endCol = shift.end_hour + 2;
+                
                 return {
-                    gridColumnStart: shift.start_hour + 1,
-                    gridColumnEnd: shift.end_hour + 1,
+                    gridColumn: `${startCol} / ${endCol}`,  //使用統一的 gridColumn 屬性
                     backgroundColor: colors[colorIndex]
                 };
             }
