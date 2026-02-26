@@ -74,15 +74,15 @@ body {
 }
 
 .nav-tab:hover {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
+  background: rgba(192, 125, 23, 0.1);
+  color: #d6a70e;
   transform: translateY(-2px);
 }
 
 .nav-tab.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ffb84d 0%, #b45309 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(233, 181, 10, 0.4);
 }
 
 .nav-tab.active::after {
@@ -368,7 +368,7 @@ body {
 /* 啟動按鈕樣式 - 美化升級 */
 .trigger-btn {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #eeb71e 0%, #f1c535 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -376,7 +376,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(233, 161, 28, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -397,9 +397,9 @@ body {
   left: 100%;
 }
 
-.trigger-btn:hover {
+.trigger-btn:hover {/*碰到後影子的顏色*/
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 12px 32px rgba(168, 132, 31, 0.5);
 }
 
 .trigger-btn:active {

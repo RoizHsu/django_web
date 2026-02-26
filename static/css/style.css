@@ -770,22 +770,7 @@ body.login-bg {
     align-items: flex-start;
   }
 }
-/* 啟動按鈕樣式 - 美化升級 */
-.trigger-btn {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
+
 
 /* 視窗容器 - 預設隱藏並縮小 */
 .window-container {
